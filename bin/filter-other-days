@@ -87,7 +87,7 @@ DAY_REGEX=$(echo $OTHER_ALL_DAYS | sed 's/ /\\|/g')
 #
 
 STANDARD_YEARS=$(seq 2000 $(($(date +%Y)+5)))
-STANDARD_MONTHS_NUM=$(seq 12)
+STANDARD_MONTHS_NUM=$(seq 12 | sed 's/^/0/g' | sed 's/0\(..\)/\1/g')
 
 NOW_YEAR=$(date +%Y)
 NOW_MONTH_NUM=$(date +%m)
