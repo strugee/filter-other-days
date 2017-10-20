@@ -23,6 +23,41 @@
 #
 # This file is split up into multiple sections - each one corresponds to one family of logfile timestamp styles
 
+if [ ${1+x} ]; then
+	if [ $1 = --version -o $1 = -v ]; then
+cat <<EOF
+filter-other-days 1.0.0
+Copyright (C) 2017 AJ Jordan <alex@strugee.net>.
+License AGPLv3+: GNU AGPL version 3 or later <https://gnu.org/licenses/agpl-3.0.html>.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Written by AJ Jordan.
+EOF
+		exit 0
+	fi
+
+	if [ $1 = --help -o $1 = -h ]; then
+cat <<EOF
+Usage: $0 [OPTION]...
+Filter logfiles for today's date in an Artificial Ignorance-compatible way.
+
+  -h, --help     display this help and exit
+  -v, --version  output version information and exit
+
+Examples:
+  echo '2017-01-01' | $0
+  cat daemon.log syslog.log | $0
+  $0 < logfile
+EOF
+		exit 0
+	fi
+
+	echo $0: unrecognized option \'$1\'
+	echo Try \'$0 --help\' for more information.
+	exit 1
+fi
+
 #
 # HUMAN-READABLE
 #
