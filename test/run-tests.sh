@@ -43,7 +43,7 @@ for i in $TESTS; do
 		exit 1
 	fi
 
-	WC=$(echo "$TOPIC" | faketime '2017-10-20' $BINFILE | wc -l)
+	WC=$(echo "$TOPIC" | faketime '2017-01-01' $BINFILE | wc -l)
 	RETCODE=$?
 	if [ $RETCODE == 0 ]; then
 		if [ $WC == $LINES ]; then
