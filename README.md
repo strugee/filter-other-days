@@ -8,6 +8,8 @@ Shell script to filter logfiles for today's date in an Artificial Ignorance-comp
 
 `filter-other-days` has no arguments besides `--help` and `--version`. It accepts input on stdin only.
 
+Note that `filter-other-days` computes today's date at startup. If the time rolls over to a new day during execution, this will not be accounted for.
+
 ## FAQ
 
 ### What are the system requirements?
