@@ -26,7 +26,9 @@ suite. See "running tests" below.
 In order to run the tests you will need Bash, which usually comes with
 all modern systems, and `faketime`, which usually doesn't. So you'll
 probably need to install the latter (the package is usually called
-`faketime`).
+`faketime`). If you also install `colordiff`, the diff that's
+displayed when failures occur will be colorized. But it's not a
+requirement.
 
 To actually run the test suite, just invoke `test/run-tests.sh`. You
 can also tell it to run only specific tests by passing it
