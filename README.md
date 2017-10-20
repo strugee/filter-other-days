@@ -4,6 +4,9 @@
 
 Shell script to filter logfiles for today's date in an Artificial Ignorance-compatible way
 
+`filter-other-days` is careful to only throw away entries that we're _sure_ aren't from today. This is implemented by using `grep -v` on other dates instead of `grep` on today's date. The rationale here is that it's better to receive irrelevant information than it is to miss relevant information.
+
+
 ## Installation
 
 Get the source, either by git clone or unpacked tarball. Change into the directory and run `sudo make install`.
