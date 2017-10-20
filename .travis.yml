@@ -3,4 +3,5 @@ dist: trusty
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq faketime
+  - sudo apt-get install -qq colordiff
 script: ./test/run-tests.sh
