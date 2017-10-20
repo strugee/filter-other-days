@@ -18,6 +18,8 @@ This program is designed to require only a POSIX environment and GNU `seq`. Patc
 
 That being said, this program was tested on a GNU userland (though with `dash` as `/bin/sh`), so there may still be dependencies on GNU extensions. If you find any such dependencies, they will be considered bugs. Please [file these][file a bug] in the bug tracker.
 
+If you want to run the test suite, you also need Bash and `faketime`.
+
 ### I'm passing a file but it says "unrecognized option 'filename'".
 
 Unlike many Unix programs, `filter-other-days` does not accept files on the commandline. This is because it makes the argument parsing code more complicated and your shell can accomplish the same thing just as well:
