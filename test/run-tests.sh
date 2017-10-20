@@ -22,6 +22,12 @@
 SUCCESSES=0
 FAILURES=0
 
+if type colordiff &>/dev/null; then
+	DIFF=colordiff
+else
+	DIFF=diff
+fi
+
 if [[ -z $@ ]]; then
 	cd $(dirname $0)
 	TESTS="*.testcase"
@@ -40,8 +46,10 @@ for i in $TESTS; do
 
 	if [ "$EXPECTED" == 'output' ]; then
 		LINES=1
+		EXPECTED_OUTPUT="$TOPIC"
 	elif [ "$EXPECTED" == 'no output' ]; then
 		LINES=0
+		EXPECTED_OUTPUT=""
 	else
 		echo "unknown expectation '$EXPECTED' in $i" 2>&1
 		exit 1
@@ -49,14 +57,18 @@ for i in $TESTS; do
 
 	if [ -z $FAKETIME ]; then FAKETIME=2017-01-01; fi
 
-	WC=$(echo "$TOPIC" | faketime $FAKETIME $BINFILE | wc -l)
+	# TODO refactor this to not rely on $WC and just directly use diff or something
+	CMD="echo \"$TOPIC\" | faketime $FAKETIME $BINFILE"
+	WC=$(eval $CMD | wc -l)
 	RETCODE=$?
 	if [ $RETCODE == 0 ]; then
 		if [ $WC == $LINES ]; then
 			echo $i passed
 			SUCCESSES=$(($SUCCESSES+1))
 		else
-			echo $i failed\; expected $LINES lines of output but saw $WC 2>&1
+			echo $i failed\; expected $LINES lines of output but saw $WC: 2>&1
+			echo $TOPIC
+			eval $CMD | $DIFF -u /dev/fd/4 - 4<<<$EXPECTED_OUTPUT | tail -n +4  2>&1
 			FAILURES=$(($FAILURES+1))
 		fi
 	else
