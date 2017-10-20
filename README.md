@@ -4,6 +4,14 @@
 
 Shell script to filter logfiles for today's date in an Artificial Ignorance-compatible way
 
+## Installation
+
+Get the source, either by git clone or unpacked tarball. Change into the directory and run `sudo make install`.
+
+`make install` uses `/usr/local` as the prefix by default; you may override this with `make install PREFIX=/your/custom/prefix`.
+
+`make uninstall` also works as you'd expect.
+
 ## Usage
 
 `filter-other-days` has no arguments besides `--help` and `--version`. It accepts input on stdin only.
