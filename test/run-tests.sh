@@ -16,7 +16,8 @@
 # License along with filter-other-days.  If not, see
 # <http://www.gnu.org/licenses/>.
 
-NEEDFAIL=false
+SUCCESSES=0
+FAILURES=0
 
 if [[ -z $@ ]]; then
 	cd $(dirname $0)
@@ -47,16 +48,21 @@ for i in $TESTS; do
 	if [ $RETCODE == 0 ]; then
 		if [ $WC == $LINES ]; then
 			echo $i passed
+			SUCCESSES=$(($SUCCESSES+1))
 		else
 			echo $i failed\; expected $LINES lines of output but saw $WC 2>&1
-			NEEDFAIL=true
+			FAILURES=$(($FAILURES+1))
 		fi
 	else
 		echo $i failed\; got nonzero exit code $RETCODE when counting lines 2>&1
-		NEEDFAIL=true
+		FAILURES=$(($FAILURES+1))
 	fi
 done
 
-if $NEEDFAIL; then exit 1; fi
+echo
+echo $FAILURES failed
+echo $SUCCESSES succeeded
+
+if ! [ $FAILURES = 0 ]; then exit 1; fi
 
 exit 0
