@@ -4,6 +4,10 @@
 
 Shell script to filter logfiles for today's date in an Artificial Ignorance-compatible way
 
+## License
+
+Affero GPL 3.0 or later
+
 ## Author
 
 AJ Jordan <alex@strugee.net>
