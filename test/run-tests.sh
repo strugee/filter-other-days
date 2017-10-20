@@ -31,10 +31,10 @@ fi
 if [[ -z $@ ]]; then
 	cd $(dirname $0)
 	TESTS="*.testcase"
-	BINFILE=../bin/filter-other-days
+	BINFILE=../filter-other-days
 else
 	TESTS="$@"
-	BINFILE=$(dirname $0)/../bin/filter-other-days
+	BINFILE=$(dirname $0)/../filter-other-days
 fi
 
 for i in $TESTS; do

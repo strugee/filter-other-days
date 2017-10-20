@@ -4,7 +4,7 @@ PREFIX = /usr/local
 
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
-	cp bin/filter-other-days $(DESTDIR)$(PREFIX)/bin/filter-other-days
+	cp filter-other-days $(DESTDIR)$(PREFIX)/bin/filter-other-days
 	chmod 0755 $(DESTDIR)$(PREFIX)/bin/filter-other-days
 	mkdir -p $(DESTDIR)$(PREFIX)/share/man/man1
 	gzip -c filter-other-days.1 > $(DESTDIR)$(PREFIX)/share/man/man1/filter-other-days.1.gz
