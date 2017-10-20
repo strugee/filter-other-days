@@ -35,6 +35,7 @@ for i in $TESTS; do
 	exec 3<> $i
 	read TOPIC <&3
 	read EXPECTED <&3
+	read FAKETIME <&3
 	exec 3>&-
 
 	if [ "$EXPECTED" == 'output' ]; then
@@ -46,7 +47,9 @@ for i in $TESTS; do
 		exit 1
 	fi
 
-	WC=$(echo "$TOPIC" | faketime '2017-01-01' $BINFILE | wc -l)
+	if [ -z $FAKETIME ]; then FAKETIME=2017-01-01; fi
+
+	WC=$(echo "$TOPIC" | faketime $FAKETIME $BINFILE | wc -l)
 	RETCODE=$?
 	if [ $RETCODE == 0 ]; then
 		if [ $WC == $LINES ]; then

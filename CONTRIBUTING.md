@@ -39,7 +39,9 @@ up. The first line is the input that will be fed to
 `filter-other-days` and the second line is either `output` or `no
 output`, to indicate what the expected result is. The test environment
 is set up such that `filter-other-days` will always believe the date
-is January 1st, 2017.
+is January 1st, 2017, but if you need to override this you can put a
+third line in your testcase. This line will be passed directly to
+`faketime` as its first argument.
 
 ## Code of Conduct
 
