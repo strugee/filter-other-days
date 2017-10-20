@@ -86,7 +86,7 @@ DAY_REGEX=$(echo $OTHER_ALL_DAYS | sed 's/ /\\|/g')
 #   2017-01-01 06:12:18 <message>
 #
 
-STANDARD_YEARS=$(seq 2000 2019)
+STANDARD_YEARS=$(seq 2000 $(($(date +%Y)+5)))
 STANDARD_MONTHS_NUM=$(seq 12)
 
 NOW_YEAR=$(date +%Y)
