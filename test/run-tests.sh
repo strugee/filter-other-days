@@ -14,7 +14,7 @@
 #
 # You should have received a copy of the GNU Affero General Public
 # License along with filter-other-days.  If not, see
-# <http://www.gnu.org/licenses/>.
+# <https://www.gnu.org/licenses/>.
 
 SUCCESSES=0
 FAILURES=0
