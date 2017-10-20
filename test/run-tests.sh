@@ -16,11 +16,18 @@
 # License along with filter-other-days.  If not, see
 # <http://www.gnu.org/licenses/>.
 
-cd $(dirname $0)
-
 NEEDFAIL=false
 
-for i in *.testcase; do
+if [[ -z $@ ]]; then
+	cd $(dirname $0)
+	TESTS="*.testcase"
+	BINFILE=../bin/filter-other-days
+else
+	TESTS="$@"
+	BINFILE=$(dirname $0)/../bin/filter-other-days
+fi
+
+for i in $TESTS; do
 	exec 3<> $i
 	read TOPIC <&3
 	read EXPECTED <&3
@@ -35,7 +42,7 @@ for i in *.testcase; do
 		exit 1
 	fi
 
-	WC=$(echo "$TOPIC" | faketime '2017-10-20' ../bin/filter-other-days | wc -l)
+	WC=$(echo "$TOPIC" | faketime '2017-10-20' $BINFILE | wc -l)
 	RETCODE=$?
 	if [ $RETCODE == 0 ]; then
 		if [ $WC == $LINES ]; then
