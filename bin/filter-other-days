@@ -1,5 +1,8 @@
 #!/bin/sh
 
+#
+# Copyright 2017 AJ Jordan <alex@strugee.net>
+#
 # This file is part of filter-other-days.
 #
 # filter-other-days is free software: you can redistribute it and/or
