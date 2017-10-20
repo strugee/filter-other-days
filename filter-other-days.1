@@ -1,0 +1,88 @@
+.\" filter-other-days.1
+.\"
+.\" filter-other-days(1) manual page
+.\"
+.\" Copyright 2017 AJ Jordan <alex@strugee.net>
+.\"
+.\" This file is part of filter-other-days.
+.\"
+.\" filter-other-days is free software: you can redistribute it and/or
+.\" modify it under the terms of the GNU Affero General Public License
+.\" as published by the Free Software Foundation, either version 3 of
+.\" the License, or (at your option) any later version.
+.\"
+.\" filter-other-days is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+.\" Affero General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU Affero General Public
+.\" License along with filter-other-days.  If not, see
+.\" <https://www.gnu.org/licenses/>.
+.TH FILTER-OTHER-DAYS 1 "19 October 2017" "1.0.0"
+.SH NAME
+filter-other-days \- filter logfiles for today's date in an Artificial
+Ignorance-compatible way
+.SH SYNOPSIS
+.B filter-other-days
+.SH DESCRIPTION
+Filter logfiles for today's date in an Artificial Ignorance-compatible
+way - i.e. only throw away entries that we're sure
+.I aren't
+from today. This is implemented by using
+.B grep -v
+on other dates instead of
+.B grep
+on today's date.
+
+The rationale here is that it's better to receive irrelevant
+information than it is to miss relevant information.
+
+Note that
+.B filter-other-days
+computes today's date at startup. If the time rolls over to a new day
+during execution, this will not be accounted for.
+
+.SH OPTIONS
+.B filter-other-days
+accepts input on stdin only.
+.TP
+.BR --help ", " -h
+Print help text and exit
+.TP
+.BR --version ", " -v
+Print version information and exit
+
+.SH EXAMPLES
+.TP
+filter-other-days < logfile
+Filter logfile for entries from today.
+.TP
+cat daemon.log syslog.log | filter-other-days
+Filter daemon.log and syslog.log for entries from today.
+
+.SH BUGS
+Bugs are tracked in GitHub:
+.I https://github.com/strugee/filter-other-days/issues
+\.
+
+There are surely many, many styles of logfile timestamps that
+.B filter-other-days
+does not recognize. If you encounter such a style, please file a bug.
+
+.B filter-other-days
+is designed to require only POSIX and
+.B seq
+but was developed on a system with a GNU userland. There may be
+implicit dependencies on GNU extensions lurking in the codebase. If
+.B filter-other-days
+.I should
+run on your system, but does not, please file a bug.
+.SH AUTHOR
+Written by AJ Jordan.
+.SH COPYRIGHT
+Copyright \(co 2017 AJ Jordan.  License AGPLv3+: GNU Affero GPL
+version 3 or later <https://gnu.org/licenses/agpl-3.0.html>.
+.br
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
