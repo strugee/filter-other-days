@@ -61,6 +61,20 @@ EOF
 	exit 1
 fi
 
+# Define a function that can replace GNU seq, as some systems may not have that.
+gen_seq() {
+    if [ -z "$2" ]; then
+	# Single option: 0 to ($1 - 1), stepping of 1
+	awk -e "BEGIN { for (i = 0; i < ""$1""; i++) print i }"
+    elif [ -z "$3" ]; then
+	# Dual option: $1 to ($2 - 1), stepping of 1
+	awk -e "BEGIN { for (i = ""$1""; i < ""$2""; i++) print i }"
+    else
+	# Triple option: $1 to ($3 - 1), stepping of $2
+	awk -e "BEGIN { for (i = ""$1""; i < ""$3""; i += ""$2"") print i }"
+    fi
+}
+
 #
 # HUMAN-READABLE
 #
@@ -89,8 +103,8 @@ December"
 
 SHORT_MONTHS=$(echo "$FULL_MONTHS" | cut -c -3)
 
-FULL_DAYS=$(seq 31 | sed 's/^/0/g' | sed 's/0\(..\)/\1/g')
-DAYS=$(seq 31)
+FULL_DAYS=$(gen_seq 31 | sed 's/^/0/g' | sed 's/0\(..\)/\1/g')
+DAYS=$(gen_seq 31)
 ALL_DAYS=$(echo "$FULL_DAYS\n$DAYS" | sort | uniq)
 
 # Current values
@@ -124,8 +138,8 @@ DAY_REGEX=$(echo $OTHER_ALL_DAYS | sed 's/ /\\|/g')
 #   2017-01-01 06:12:18 <message>
 #
 
-STANDARD_YEARS=$(seq 2000 $(($(date +%Y)+5)))
-STANDARD_MONTHS_NUM=$(seq 12 | sed 's/^/0/g' | sed 's/0\(..\)/\1/g')
+STANDARD_YEARS=$(gen_seq 2000 $(($(date +%Y)+5)))
+STANDARD_MONTHS_NUM=$(gen_seq 12 | sed 's/^/0/g' | sed 's/0\(..\)/\1/g')
 
 NOW_YEAR=$(date +%Y)
 NOW_MONTH_NUM=$(date +%m)
