@@ -29,7 +29,7 @@
 if [ ${1+x} ]; then
 	if [ $1 = --version ] || [ $1 = -v ]; then
 cat <<EOF
-filter-other-days 1.0.0
+filter-other-days 1.0.1
 Copyright (C) 2017 AJ Jordan <alex@strugee.net>.
 License AGPLv3+: GNU AGPL version 3 or later <https://gnu.org/licenses/agpl-3.0.html>.
 This is free software: you are free to change and redistribute it.
