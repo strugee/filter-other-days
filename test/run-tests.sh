@@ -22,6 +22,11 @@
 SUCCESSES=0
 FAILURES=0
 
+if ! type faketime &>/dev/null; then
+	echo $0: faketime is not available, cannot run tests
+	exit 1
+fi
+
 if type colordiff &>/dev/null; then
 	DIFF=colordiff
 else
