@@ -63,7 +63,7 @@ for i in $TESTS; do
 	if [ -z $FAKETIME ]; then FAKETIME=2017-01-01; fi
 
 	# TODO refactor this to not rely on $WC and just directly use diff or something
-	CMD="echo \"$TOPIC\" | faketime $FAKETIME $BINFILE"
+	CMD="echo \"$TOPIC\" | faketime -f \"$FAKETIME 00:00:00\" $BINFILE"
 	WC=$(eval $CMD | wc -l)
 	RETCODE=$?
 	if [ $RETCODE == 0 ]; then
