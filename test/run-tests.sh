@@ -72,7 +72,22 @@ for i in $TESTS; do
 			SUCCESSES=$(($SUCCESSES+1))
 		else
 			echo $i failed\; expected $LINES lines of output but saw $WC: 2>&1
-			eval $CMD | $DIFF -u /dev/fd/4 - 4<<<$EXPECTED_OUTPUT | tail -n +4  2>&1
+
+			# This is kinda confusing, but what's happening is that we're passing
+			# two file descriptors to `diff`. The code here used to set up stdin
+			# (with `eval $CMD |`) and fd 4 (with `4<<<$EXPECTED_OUTPUT`), then
+			# invoke `diff /dev/fd/4 -`. However, this doesn't work on systems
+			# that don't do /dev/fd properly - in particular, FreeBSD seems to
+			# only set up /dev/fd entries for stdin, stdout and stderr, not any
+			# custom file descriptors.
+			#
+			# So instead what we do is we use bash's builtin syntax for this. It
+			# looks clumsier in this situation, but it means that if /dev/fd isn't
+			# properly available bash will use FIFOs instead.
+			#
+			# See "Process Substitution" in bash(1) for details.
+			$DIFF -u <(echo $EXPECTED_OUTPUT) <(eval $CMD) | tail -n +4  2>&1
+
 			FAILURES=$(($FAILURES+1))
 		fi
 	else
