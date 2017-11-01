@@ -27,7 +27,7 @@
 # This file is split up into multiple sections - each one corresponds to one family of logfile timestamp styles
 
 if [ ${1+x} ]; then
-	if [ $1 = --version -o $1 = -v ]; then
+	if [ $1 = --version ] || [ $1 = -v ]; then
 cat <<EOF
 filter-other-days 1.0.0
 Copyright (C) 2017 AJ Jordan <alex@strugee.net>.
@@ -40,7 +40,7 @@ EOF
 		exit 0
 	fi
 
-	if [ $1 = --help -o $1 = -h ]; then
+	if [ $1 = --help ] || [ $1 = -h ]; then
 cat <<EOF
 Usage: $0 [OPTION]...
 Filter logfiles for today's date in an Artificial Ignorance-compatible way.
