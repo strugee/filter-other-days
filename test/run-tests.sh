@@ -72,7 +72,6 @@ for i in $TESTS; do
 			SUCCESSES=$(($SUCCESSES+1))
 		else
 			echo $i failed\; expected $LINES lines of output but saw $WC: 2>&1
-			echo $TOPIC
 			eval $CMD | $DIFF -u /dev/fd/4 - 4<<<$EXPECTED_OUTPUT | tail -n +4  2>&1
 			FAILURES=$(($FAILURES+1))
 		fi
