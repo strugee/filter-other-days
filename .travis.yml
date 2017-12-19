@@ -5,4 +5,4 @@ before_install:
   - sudo apt-get install -qq faketime
   - sudo apt-get install -qq colordiff
   - sudo apt-get install -qq devscripts
-script: ./test/run-tests.sh && checkbashisms --newline --posix --extra filter-other-days && dpkg-buildpackage
+script: ./test/run-tests.sh && checkbashisms --newline --posix --extra filter-other-days && dpkg-buildpackage && lintian --pedantic ../filter-other-days_*_all.deb
