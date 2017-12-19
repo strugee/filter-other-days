@@ -1,0 +1,24 @@
+Source: filter-other-days
+Section: admin
+Priority: optional
+Maintainer: AJ Jordan <alex@strugee.net>
+Build-Depends: faketime, bash
+Standards-Version: 4.1.2
+Homepage: https://github.com/strugee/filter-other-days
+Vcs-Git: https://github.com/strugee/filter-other-days.git
+Vcs-Browser: https://github.com/strugee/filter-other-days
+
+Package: filter-other-days
+Architecture: any
+Depends: coreutils
+Description: filter logfiles for today's date in an Artificial Ignorance-compatible way
+ filter-other-days filters logfiles for today's date in an Artificial \
+ Ignorance-compatible way. That means it throws away entries that it's
+ sure aren't from today, instead of filtering for entries it thinks
+ are from today.
+ .
+ This is done for security reasons; it's better to receive irrelevant
+ information than it is to miss relevant information. Thus
+ filter-other-days is useful as a part of a larger Artificial
+ Ignorance setup if the administrator wants to e.g. get a daily report
+ emailed to them.
