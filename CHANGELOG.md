@@ -2,6 +2,12 @@
 
 `filter-other-days` follows [Semantic Versioning][1]. Support for additional timestamp styles is considered semver-minor.
 
+## 1.0.2 - future
+
+### Added
+
+* A Debian package is now available
+
 ## 1.0.1 - 2017-11-01
 
 ### Fixed
