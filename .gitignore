@@ -1,0 +1,5 @@
+debian/debhelper-build-stamp
+debian/files
+debian/filter-other-days.debhelper.log
+debian/filter-other-days.substvars
+debian/filter-other-days/
