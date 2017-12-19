@@ -2,7 +2,7 @@ PREFIX = /usr/local
 
 default:
 
-.PHONY: install uninstall test
+.PHONY: install uninstall test clean
 
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
@@ -18,3 +18,6 @@ uninstall:
 
 test:
 	./test/run-tests.sh
+
+clean:
+	git clean -fXd
