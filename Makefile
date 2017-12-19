@@ -1,5 +1,7 @@
 PREFIX = /usr/local
 
+default:
+
 .PHONY: install uninstall test
 
 install:
