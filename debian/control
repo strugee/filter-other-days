@@ -11,7 +11,7 @@ Vcs-Browser: https://github.com/strugee/filter-other-days
 Package: filter-other-days
 Architecture: all
 Description: filter logfiles for today's date in an Artificial Ignorance-compatible way
- filter-other-days filters logfiles for today's date in an Artificial \
+ filter-other-days filters logfiles for today's date in an Artificial
  Ignorance-compatible way. That means it throws away entries that it's
  sure aren't from today, instead of filtering for entries it thinks
  are from today.
