@@ -29,7 +29,7 @@ See [CONTRIBUTING.md](https://github.com/strugee/filter-other-days/blob/master/C
 
 ### What are the system requirements?
 
-This program is designed to require only a POSIX environment and GNU `seq`. Patches to remove the dependency on `seq` would be greatly appreciated.
+This program is designed to require only a POSIX environment. GNU `seq` was required until version 1.1.0, but this has been fixed.
 
 That being said, this program was tested on a GNU userland (though with `dash` as `/bin/sh`), so there may still be dependencies on GNU extensions. If you find any such dependencies, they will be considered bugs. Please [file these][file a bug] in the bug tracker.
 
