@@ -19,69 +19,66 @@
 .\" You should have received a copy of the GNU Affero General Public
 .\" License along with filter-other-days.  If not, see
 .\" <https://www.gnu.org/licenses/>.
-.TH FILTER-OTHER-DAYS 1 "1 November 2017" "1.0.1"
-.SH NAME
-filter-other-days \- filter logfiles for today's date in an Artificial
-Ignorance-compatible way
-.SH SYNOPSIS
-.B filter-other-days
-.SH DESCRIPTION
-Filter logfiles for today's date in an Artificial Ignorance-compatible
-way - i.e. only throw away entries that we're sure
-.I aren't
-from today. This is implemented by using
-.B grep -v
+.Dd September 2, 2018
+.Dt FILTER-OTHER-DAYS 1
+.Os
+.Sh NAME
+.Nm filter-other-days
+.Nd filter logfiles for today's date in an Artificial Ignorance-compatible way
+.Sh SYNOPSIS
+.Nm
+.Sh DESCRIPTION
+The
+.Nm
+utility filters logfiles for today's date in an Artificial Ignorance-compatible way.
+That is, it only throw away entries that it's sure
+.Em aren't
+from today.
+This is implemented by using
+.Li grep -v
 on other dates instead of
-.B grep
+.Li grep
 on today's date.
-
-The rationale here is that it's better to receive irrelevant
-information than it is to miss relevant information.
-
-Note that
-.B filter-other-days
-computes today's date at startup. If the time rolls over to a new day
-during execution, this will not be accounted for.
-
-.SH OPTIONS
-.B filter-other-days
+The rationale here is that it's better to receive irrelevant information than it is to miss relevant information.
+.Pp
+.Nm
 accepts input on stdin only.
-.TP
-.BR --help ", " -h
-Print help text and exit
-.TP
-.BR --version ", " -v
-Print version information and exit
-
-.SH EXAMPLES
-.TP
+.Pp
+The options are as follows:
+.Bl -tag -width Ds
+.It Fl -help , h
+Print help.
+.It Fl -version , v
+Print version.
+.El
+.Sh EXAMPLES
+Filter logfile for entries from today:
+.Bd -literal -offset Dl
 filter-other-days < logfile
-Filter logfile for entries from today.
-.TP
+.Ed
+.Pp
+Filter daemon.log and syslog.log for entries from today:
+.Bd -literal -offset Dl
 cat daemon.log syslog.log | filter-other-days
-Filter daemon.log and syslog.log for entries from today.
-
-.SH BUGS
+.Ed
+.Sh AUTHORS
+.An AJ Jordan Aq Mt alex@strugee.net
+.Sh CAVEATS
+.Nm
+computes today's date at startup.
+If the time rolls over to a new day during execution, this will not be accounted for.
+.Sh BUGS
 Bugs are tracked in GitHub:
-.I https://github.com/strugee/filter-other-days/issues
-\.
-
+.Lk https://github.com/strugee/filter-other-days/issues
+.Pp
 There are surely many, many styles of logfile timestamps that
-.B filter-other-days
-does not recognize. If you encounter such a style, please file a bug.
-
-.B filter-other-days
-is designed to require only POSIX but was developed on a system with a
-GNU userland. There may be implicit dependencies on GNU extensions
-lurking in the codebase. If
-.B filter-other-days
-.I should
+.Nm
+does not recognize.
+If you encounter such a style, please file a bug.
+.Nm
+is designed to require only POSIX but was developed on a system with a GNU userland.
+There may be implicit dependencies on GNU extensions lurking in the codebase.
+If
+.Nm
+.Em should
 run on your system, but does not, please file a bug.
-.SH AUTHOR
-Written by AJ Jordan.
-.SH COPYRIGHT
-Copyright \(co 2017 AJ Jordan.  License AGPLv3+: GNU Affero GPL
-version 3 or later <https://gnu.org/licenses/agpl-3.0.html>.
-.br
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.

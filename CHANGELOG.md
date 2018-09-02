@@ -11,6 +11,7 @@
 ### Changed
 
 * GNU `seq` is no longer required
+* `filter-other-days(1)` is now formatted as `mdoc(7)` instead of `man(7)`
 
 ## 1.0.1 - 2017-11-01
 
