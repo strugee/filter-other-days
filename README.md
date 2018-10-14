@@ -6,7 +6,6 @@ Shell script to filter logfiles for today's date in an Artificial Ignorance-comp
 
 `filter-other-days` is careful to only throw away entries that we're _sure_ aren't from today. This is implemented by using `grep -v` on other dates instead of `grep` on today's date. The rationale here is that it's better to receive irrelevant information than it is to miss relevant information.
 
-
 ## Installation
 
 Get the source, either by git clone or unpacked tarball. Change into the directory and run `sudo make install`.
@@ -17,7 +16,7 @@ Get the source, either by git clone or unpacked tarball. Change into the directo
 
 ## Usage
 
-`filter-other-days` has no arguments besides `--help` and `--version`. It accepts input on stdin only.
+`filter-other-days` has one argument besides `--help` and `--version`: `-d <seconds>` can be used to override the day `filter-other-days` uses as "today", specified in [seconds since the epoch](https://en.wikipedia.org/wiki/Unix_time) (although `-d` is not available on every platform; see "What are the system requirements?" below). `filter-other-days` accepts input on stdin only.
 
 Note that `filter-other-days` computes today's date at startup. If the time rolls over to a new day during execution, this will not be accounted for.
 
