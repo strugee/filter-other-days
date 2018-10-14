@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# Copyright 2017 AJ Jordan <alex@strugee.net>
+# Copyright 2017, 2018 AJ Jordan <alex@strugee.net>
 #
 # This file is part of filter-other-days.
 #
@@ -42,11 +42,32 @@ seq() {
 	done
 }
 
-if [ ${1+x} ]; then
+# Feature-test for -d support
+
+D_SUPPORTED=false
+
+alias D_FEATURE_TEST_GNU="TZ=UTC date -d @0 2>&1"
+
+# wc -l to make sure nothing's on stderr
+
+if D_FEATURE_TEST_GNU | grep 1970 >/dev/null && [ $(D_FEATURE_TEST_GNU | wc -l) = 1 ]; then
+	D_SUPPORTED=true
+fi
+
+# TODO verify this behavior on a BSD system
+
+alias D_FEATURE_TEST_BSD="TZ=UTC date -r 0 2>&1"
+
+if D_FEATURE_TEST_BSD | grep 1970 >/dev/null && [ $(D_FEATURE_TEST_BSD | wc -l) = 1 ]; then
+	D_SUPPORTED=true
+fi
+
+while [ $# -gt 0 ]; do
+	# -v
 	if [ $1 = --version ] || [ $1 = -v ]; then
 cat <<EOF
 filter-other-days 1.0.1
-Copyright (C) 2017 AJ Jordan <alex@strugee.net>.
+Copyright (C) 2017, 2018 AJ Jordan <alex@strugee.net>.
 License AGPLv3+: GNU AGPL version 3 or later <https://gnu.org/licenses/agpl-3.0.html>.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
@@ -56,6 +77,7 @@ EOF
 		exit 0
 	fi
 
+	# -h
 	if [ $1 = --help ] || [ $1 = -h ]; then
 cat <<EOF
 Usage: $0 [OPTION]...
@@ -63,6 +85,15 @@ Filter logfiles for today's date in an Artificial Ignorance-compatible way.
 
   -h, --help     display this help and exit
   -v, --version  output version information and exit
+EOF
+
+# TODO if we're on a GNU system, should we try to accept everything GNU `date -d` accepts?
+
+if $D_SUPPORTED; then
+	echo '  -d             use this as current seconds since the epoch'
+fi
+
+cat <<EOF
 
 Examples:
   echo '2017-01-01' | $0
@@ -72,10 +103,30 @@ EOF
 		exit 0
 	fi
 
+	# -d
+	if [ $1 = '-d' ]; then
+		if [ -z ${2+x} ]; then
+			echo $0: option requires an argument -- '-d' 2>&1
+			echo Try \'$0 --help\' for more information. 2>&1
+			exit 1
+		fi
+
+		if ! $D_SUPPORTED; then
+			echo $0: option not available on this system -- '-d' 2>&1
+			exit 1
+		fi
+
+		D_FEATURE_TEST_GNU >/dev/null 2>&1 && DATE_FLAGS="-d @$2"
+		D_FEATURE_TEST_BSD >/dev/null 2>&1 && DATE_FLAGS="-r $2"
+
+		shift 2
+		continue
+	fi
+
 	echo $0: unrecognized option \'$1\' 2>&1
 	echo Try \'$0 --help\' for more information. 2>&1
 	exit 1
-fi
+done
 
 #
 # HUMAN-READABLE
@@ -111,9 +162,9 @@ ALL_DAYS=$(printf "$FULL_DAYS\n$DAYS" | sort | uniq)
 
 # Current values
 
-NOW_SHORT_MONTH=$(date +%b)
-NOW_FULL_MONTH=$(date +%B)
-NOW_FULL_DAY=$(date +%d)
+NOW_SHORT_MONTH=$(date $DATE_FLAGS +%b)
+NOW_FULL_MONTH=$(date $DATE_FLAGS +%B)
+NOW_FULL_DAY=$(date $DATE_FLAGS +%d)
 NOW_DAY=$(echo $NOW_FULL_DAY | sed 's/^0//')
 
 # Filtered dataset
@@ -140,11 +191,11 @@ DAY_REGEX=$(echo $OTHER_ALL_DAYS | sed 's/ /\\|/g')
 #   2017-01-01 06:12:18 <message>
 #
 
-STANDARD_YEARS=$(seq 2000 $(($(date +%Y)+5)))
+STANDARD_YEARS=$(seq 2000 $(($(date $DATE_FLAGS +%Y)+5)))
 STANDARD_MONTHS_NUM=$(seq 12 | sed 's/^/0/g' | sed 's/0\(..\)/\1/g')
 
-NOW_YEAR=$(date +%Y)
-NOW_MONTH_NUM=$(date +%m)
+NOW_YEAR=$(date $DATE_FLAGS +%Y)
+NOW_MONTH_NUM=$(date $DATE_FLAGS +%m)
 
 OTHER_MONTHS_NUM=$(echo "$STANDARD_MONTHS_NUM" | grep -v $NOW_MONTH_NUM)
 

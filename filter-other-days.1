@@ -27,6 +27,7 @@
 .Nd filter logfiles for today's date in an Artificial Ignorance-compatible way
 .Sh SYNOPSIS
 .Nm
+.Op Fl d Ar seconds
 .Sh DESCRIPTION
 The
 .Nm
@@ -46,6 +47,11 @@ accepts input on stdin only.
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
+.It Fl d Ar seconds
+Treat
+.Ar seconds
+as the current time, in seconds since the epoch.
+Not available on all systems; availability is determined at runtime.
 .It Fl -help , h
 Print help.
 .It Fl -version , v
@@ -75,10 +81,16 @@ There are surely many, many styles of logfile timestamps that
 .Nm
 does not recognize.
 If you encounter such a style, please file a bug.
+.Nm ,
+except
 .Nm
+.Fl d ,
 is designed to require only POSIX but was developed on a system with a GNU userland.
 There may be implicit dependencies on GNU extensions lurking in the codebase.
 If
 .Nm
 .Em should
 run on your system, but does not, please file a bug.
+.Pp
+.Fl d
+is not compatible with purely POSIX systems because it is impossible to implement using only what POSIX provides.

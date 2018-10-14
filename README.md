@@ -29,9 +29,11 @@ See [CONTRIBUTING.md](https://github.com/strugee/filter-other-days/blob/master/C
 
 ### What are the system requirements?
 
-This program is designed to require only a POSIX environment. GNU `seq` was required until version 1.1.0, but this has been fixed.
+This program is designed to require only a POSIX environment for its core functionality. GNU `seq` was required until version 1.1.0, but this has been fixed.
 
-That being said, this program was tested on a GNU userland (though with `dash` as `/bin/sh`), so there may still be dependencies on GNU extensions. If you find any such dependencies, they will be considered bugs. Please [file these][file a bug] in the bug tracker.
+The `-d` option does not work under POSIX because it is impossible to implement without extensions. It is available on systems with GNU `date -d` or BSD `date -r` semantics; these are feature-tested at runtime. You can determine whether `-d` is available by examining the help output - it will not be shown if you can't use it.
+
+That all being said, this program was tested on a GNU userland (though with `dash` as `/bin/sh`), so there may still be dependencies on GNU extensions. If you find any such dependencies, they will be considered bugs. Please [file these][file a bug] in the bug tracker.
 
 If you want to run the test suite, you also need Bash and `faketime`.
 
