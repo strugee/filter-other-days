@@ -26,6 +26,8 @@
 #
 # This file is split up into multiple sections - each one corresponds to one family of logfile timestamp styles
 
+export POSIXLY_CORRECT=
+
 seq() {
 	if ! [ -z ${2+x} ]; then
 		min=$1
