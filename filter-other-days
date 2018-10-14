@@ -180,10 +180,10 @@ OTHER_ALL_DAYS=$(printf "$OTHER_FULL_DAYS\n$OTHER_DAYS\n" | sort | uniq)
 # Built regexps
 
 # Unquoted on purpose so the shell turns newlines into spaces
-FULL_MONTHS_REGEX=$(echo $OTHER_FULL_MONTHS | sed 's/ /\\|/g')
-SHORT_MONTHS_REGEX=$(echo $OTHER_SHORT_MONTHS | sed 's/ /\\|/g')
-ALL_DAYS_REGEX=$(echo $ALL_DAYS | sed 's/ /\\|/g')
-DAY_REGEX=$(echo $OTHER_ALL_DAYS | sed 's/ /\\|/g')
+FULL_MONTHS_REGEX=$(echo $OTHER_FULL_MONTHS | sed 's/ /|/g')
+SHORT_MONTHS_REGEX=$(echo $OTHER_SHORT_MONTHS | sed 's/ /|/g')
+ALL_DAYS_REGEX=$(echo $ALL_DAYS | sed 's/ /|/g')
+DAY_REGEX=$(echo $OTHER_ALL_DAYS | sed 's/ /|/g')
 
 #
 # STANDARD
@@ -201,8 +201,8 @@ NOW_MONTH_NUM=$(date $DATE_FLAGS +%m)
 
 OTHER_MONTHS_NUM=$(echo "$STANDARD_MONTHS_NUM" | grep -v $NOW_MONTH_NUM)
 
-YEARS_REGEX=$(echo $STANDARD_YEARS | sed 's/ /\\|/g')
-STANDARD_MONTHS_REGEX=$(echo $OTHER_MONTHS_NUM | sed 's/ /\\|/g')
+YEARS_REGEX=$(echo $STANDARD_YEARS | sed 's/ /|/g')
+STANDARD_MONTHS_REGEX=$(echo $OTHER_MONTHS_NUM | sed 's/ /|/g')
 
 #
 # ACTUAL `grep` INVOCATION
@@ -210,9 +210,8 @@ STANDARD_MONTHS_REGEX=$(echo $OTHER_MONTHS_NUM | sed 's/ /\\|/g')
 
 # We have to do the human-readable variants in two passes because we can't exclude today's day for other months
 # E.g. if it's October 1st, we still want to match September 1st so we use $ALL_DAYS_REGEX, not $DAYS_REGEX
-# Also I have literally no idea why the all of these have to use capturing groups. Whatever.
-grep -v \
--e "\($FULL_MONTHS_REGEX\|$SHORT_MONTHS_REGEX\)[[:space:]]\+\($ALL_DAYS_REGEX\)[[:space:]]" \
--e "\($NOW_SHORT_MONTH\|$NOW_FULL_MONTH\)[[:space:]]\+\(:?$DAY_REGEX\)[[:space:]]" \
--e "\($YEARS_REGEX\)-\($STANDARD_MONTHS_REGEX\)-\($ALL_DAYS_REGEX\)[[:space:]]" \
--e "\($YEARS_REGEX\)-$NOW_MONTH_NUM-\($DAY_REGEX\)[[:space:]]"
+grep -E -v \
+-e "($FULL_MONTHS_REGEX|$SHORT_MONTHS_REGEX)[[:space:]]+($ALL_DAYS_REGEX)[[:space:]]" \
+-e "($NOW_SHORT_MONTH|$NOW_FULL_MONTH)[[:space:]]+($DAY_REGEX)[[:space:]]" \
+-e "($YEARS_REGEX)-($STANDARD_MONTHS_REGEX)-($ALL_DAYS_REGEX)[[:space:]]" \
+-e "($YEARS_REGEX)-$NOW_MONTH_NUM-($DAY_REGEX)[[:space:]]"
