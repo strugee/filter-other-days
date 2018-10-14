@@ -160,7 +160,7 @@ SHORT_MONTHS=$(echo "$FULL_MONTHS" | cut -c -3)
 
 FULL_DAYS=$(seq 31 | sed 's/^/0/g' | sed 's/0\(..\)/\1/g')
 DAYS=$(seq 31)
-ALL_DAYS=$(printf "$FULL_DAYS\n$DAYS" | sort | uniq)
+ALL_DAYS=$(printf "$FULL_DAYS\n$DAYS\n" | sort | uniq)
 
 # Current values
 
@@ -175,7 +175,7 @@ OTHER_SHORT_MONTHS=$(echo "$SHORT_MONTHS" | grep -Fxv $NOW_SHORT_MONTH)
 OTHER_FULL_MONTHS=$(echo "$FULL_MONTHS" | grep -Fxv $NOW_FULL_MONTH)
 OTHER_DAYS=$(echo "$DAYS" | grep -Fxv $NOW_DAY)
 OTHER_FULL_DAYS=$(echo "$FULL_DAYS" | grep -Fxv $NOW_FULL_DAY)
-OTHER_ALL_DAYS=$(printf "$OTHER_FULL_DAYS\n$OTHER_DAYS" | sort | uniq)
+OTHER_ALL_DAYS=$(printf "$OTHER_FULL_DAYS\n$OTHER_DAYS\n" | sort | uniq)
 
 # Built regexps
 
