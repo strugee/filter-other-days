@@ -72,8 +72,8 @@ EOF
 		exit 0
 	fi
 
-	echo $0: unrecognized option \'$1\'
-	echo Try \'$0 --help\' for more information.
+	echo $0: unrecognized option \'$1\' 2>&1
+	echo Try \'$0 --help\' for more information. 2>&1
 	exit 1
 fi
 
