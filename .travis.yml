@@ -6,4 +6,4 @@ before_install:
   - sudo apt-get install -qq colordiff
   - sudo apt-get install -qq devscripts
   - sudo apt-get install -qq debhelper
-script: ./test/run-tests.sh && checkbashisms --newline --posix --extra filter-other-days && dpkg-buildpackage && lintian --pedantic ../filter-other-days_*_all.deb
+script: ./test/run-tests.sh && sudo apt-get remove -qq faketime && ./test/run-tests.sh && checkbashisms --newline --posix --extra filter-other-days && dpkg-buildpackage && lintian --pedantic ../filter-other-days_*_all.deb
