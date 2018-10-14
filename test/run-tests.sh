@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-#
-# Copyright 2017 AJ Jordan <alex@strugee.net>
+# Copyright 2017, 2018 AJ Jordan <alex@strugee.net>
 #
 # This file is part of filter-other-days.
 #
@@ -22,8 +21,11 @@
 SUCCESSES=0
 FAILURES=0
 
-if ! type faketime &>/dev/null; then
-	echo $0: faketime is not available, cannot run tests
+GDATE=date
+type gdate >/dev/null 2>&1 && GDATE=gdate
+
+if ! type faketime &>/dev/null && ! $(dirname $0)/../filter-other-days -h | grep -- '-d' >/dev/null; then
+	echo $0: faketime and -d are not available; cannot run tests
 	exit 1
 fi
 
@@ -63,7 +65,11 @@ for i in $TESTS; do
 	if [ -z $FAKETIME ]; then FAKETIME=2017-01-01; fi
 
 	# TODO refactor this to not rely on $WC and just directly use diff or something
-	CMD="echo \"$TOPIC\" | faketime -f \"$FAKETIME 00:00:00\" $BINFILE"
+	if type faketime >/dev/null 2>&1; then
+		CMD="echo \"$TOPIC\" | faketime -f \"$FAKETIME 00:00:00\" $BINFILE"
+	else
+		CMD="echo \"$TOPIC\" | $BINFILE -d $($GDATE +%s -d $FAKETIME\ 00:00:00)"
+	fi
 	WC=$(eval $CMD | wc -l)
 	RETCODE=$?
 	if [ $RETCODE == 0 ]; then

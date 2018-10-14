@@ -24,11 +24,16 @@ suite. See "running tests" below.
 ## Running tests
 
 In order to run the tests you will need Bash, which usually comes with
-all modern systems, and `faketime`, which usually doesn't. So you'll
-probably need to install the latter (the package is usually called
-`faketime`). If you also install `colordiff`, the diff that's
-displayed when failures occur will be colorized. But it's not a
-requirement.
+all modern systems. You'll also need either a `date` with GNU's `date
+-d` semantics, or you'll need `faketime`. If you want to use the
+latter, install the package - it's usually called `faketime` or
+sometimes `libfaketime`. If you want to use the former, just make sure
+the GNU tools are installed; the test suite will recognize the `gdate`
+binary name if that's what they come as (for example, if you're on a
+BSD).
+
+If you also install `colordiff`, the diff that's displayed when
+failures occur will be colorized. But it's not a requirement.
 
 To actually run the test suite, just invoke `test/run-tests.sh`. You
 can also tell it to run only specific tests by passing it
@@ -43,7 +48,8 @@ output`, to indicate what the expected result is. The test environment
 is set up such that `filter-other-days` will always believe the date
 is January 1st, 2017, but if you need to override this you can put a
 third line in your testcase. This line will be passed directly to
-`faketime` as its first argument.
+`faketime` as its first argument, or parsed by `date -d` if you don't
+have `faketime`.
 
 ## Code of Conduct
 
