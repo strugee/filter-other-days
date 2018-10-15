@@ -7,11 +7,20 @@
 ### Added
 
 * A Debian package is now available
+* The `-d` flag allows overriding the day to filter for
 
 ### Changed
 
 * GNU `seq` is no longer required
 * `filter-other-days(1)` is now formatted as `mdoc(7)` instead of `man(7)`
+* Make the test suite run on OpenBSD, illumos (OpenIndiana and OmniOSce), and Cygwin using `-d`
+* Explicitly request GNU tool POSIX compliance
+
+### Fixed
+
+* Use EREs instead of BREs to avoid non-portable GNU extension `\|` in BREs
+* Error messages are now printed to stderr
+* Resolve a `sort(1)` warning message on OmniOSce and presumably other Solaris-like `sort(1)` implementations
 
 ## 1.0.1 - 2017-11-01
 
