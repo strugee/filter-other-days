@@ -22,6 +22,8 @@ SUCCESSES=0
 FAILURES=0
 
 GDATE=date
+# OmniOS; probably other illumosen
+test -x /usr/gnu/bin/date && GDATE=/usr/gnu/bin/date
 type gdate >/dev/null 2>&1 && GDATE=gdate
 
 if ! type faketime &>/dev/null && ! $(dirname $0)/../filter-other-days -h | grep -- '-d' >/dev/null; then
