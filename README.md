@@ -32,7 +32,7 @@ This program is designed to require only a POSIX environment for its core functi
 
 The `-d` option does not work under POSIX because it is impossible to implement without extensions. It is available on systems with GNU `date -d` or BSD `date -r` semantics; these are feature-tested at runtime. You can determine whether `-d` is available by examining the help output - it will not be shown if you can't use it.
 
-That all being said, this program was tested on a GNU userland (though with `dash` as `/bin/sh`), so there may still be dependencies on GNU extensions. If you find any such dependencies, they will be considered bugs. Please [file these][file a bug] in the bug tracker.
+That all being said, this program was tested on systems that include extensions to POSIX, so there may be lingering dependencies on these extensions. If you find any such dependencies, they will be considered bugs. Please [report these][file a bug] in the bug tracker.
 
 If you want to run the test suite, you also need Bash and either `faketime` or a `date` with GNU's `date -d` semantics.
 
