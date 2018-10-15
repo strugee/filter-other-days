@@ -43,6 +43,7 @@ If you want to run the test suite, you also need Bash and either `faketime` or a
 * GNU/Linux
 * FreeBSD 11.2-RELEASE
 * OpenBSD 6.3
+* NetBSD 8.0
 * OpenIndiana Hipster 20180427
 * OmniOSce r151026
 * Cygwin

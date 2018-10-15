@@ -13,7 +13,7 @@
 
 * GNU `seq` is no longer required
 * `filter-other-days(1)` is now formatted as `mdoc(7)` instead of `man(7)`
-* Make the test suite run on OpenBSD, illumos (OpenIndiana and OmniOSce), and Cygwin using `-d`
+* Port the test suite to run on OpenBSD, NetBSD, illumos (OpenIndiana and OmniOSce), and Cygwin using `-d`
 * Explicitly request GNU tool POSIX compliance
 
 ### Fixed
