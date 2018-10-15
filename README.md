@@ -36,6 +36,19 @@ That all being said, this program was tested on a GNU userland (though with `das
 
 If you want to run the test suite, you also need Bash and either `faketime` or a `date` with GNU's `date -d` semantics.
 
+### What systems has `filter-other-days` successfully been tested on?
+
+`filter-other-days` with the `-d` option has successfully been tested on the following systems:
+
+* GNU/Linux
+* FreeBSD 11.2-RELEASE
+* OpenBSD 6.3
+* OpenIndiana Hipster 20180427
+* OmniOSce r151026
+* Cygwin
+
+`filter-other-days` has not been tested on any systems where `-d` is unavailable.
+
 ### I'm passing a file but it says "unrecognized option 'filename'".
 
 Unlike many Unix programs, `filter-other-days` does not accept files on the commandline. This is because it makes the argument parsing code more complicated and your shell can accomplish the same thing just as well:
