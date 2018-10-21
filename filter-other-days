@@ -144,7 +144,25 @@ done
 
 # Base dataset
 
-FULL_MONTHS="January
+locale_monthnames() {
+	for LOCALE in $(locale -a); do
+		# We start the time from ~17 days into the month so we can safely add a "month" and not get screwed due to each month having a different number of days
+		TIME=$((60 * 60 * 24 * 17))
+		while [ $TIME -le $((60 * 60 * 24 * 365)) ]; do
+			# TODO every locale has the same number of days per month, right?
+			# TODO should we be using LANG or LC_ALL?
+			TZ=UTC LANG=$LOCALE date ${DATE_FLAG_PREFIX}$TIME +%B
+			# Add 30 days
+			TIME=$(($TIME + $((60 * 60 * 24 * 30))))
+		done
+	done
+}
+
+if $D_SUPPORTED; then
+	# We filter because lots of locales have duplicates, e.g. all the English locales, and especially because UTF-8 and non-UTF-8 variants are often the same
+	FULL_MONTHS="$(locale_monthnames | tr ' ' '\n' | sort | uniq)"
+else
+	FULL_MONTHS="January
 February
 March
 April
@@ -156,6 +174,7 @@ September
 October
 November
 December"
+fi
 
 SHORT_MONTHS=$(echo "$FULL_MONTHS" | cut -c -3)
 
