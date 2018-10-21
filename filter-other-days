@@ -56,8 +56,6 @@ if D_FEATURE_TEST_GNU | grep 1970 >/dev/null && [ $(D_FEATURE_TEST_GNU | wc -l) 
 	D_SUPPORTED=true
 fi
 
-# TODO verify this behavior on a BSD system
-
 alias D_FEATURE_TEST_BSD="TZ=UTC date -r 0 2>&1"
 
 if D_FEATURE_TEST_BSD | grep 1970 >/dev/null && [ $(D_FEATURE_TEST_BSD | wc -l) = 1 ]; then
