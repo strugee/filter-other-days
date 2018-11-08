@@ -48,7 +48,7 @@ If you want to run the test suite, you also need Bash and either `faketime` or s
 * OmniOSce r151026
 * Cygwin
 
-`filter-other-days` has not been tested on any systems where `-d` is unavailable.
+`filter-other-days` has not been tested on any systems where `-d` is unavailable because I was unable to find any other freely available, widely used Unix systems that were significantly different from those on this list. If you successfully test `filter-other-days` on a new system with or without `-d`, please [report back your findings][file a bug].
 
 ### I'm passing a file but it says "unrecognized option 'filename'".
 
