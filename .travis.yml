@@ -11,4 +11,4 @@ addons:
     - devscripts
 install:
   - if [ $TRAVIS_OS_NAME == osx ]; then rvm use system && brew install libfaketime; fi
-script: ./test/run-tests.sh && sudo apt-get install -qq faketime && ./test/run-tests.sh && checkbashisms --newline --posix --extra filter-other-days && dpkg-buildpackage && lintian --pedantic ../filter-other-days_*_all.deb
+script: ./test/run-tests.sh && sudo apt-get remove -qq faketime && ./test/run-tests.sh && checkbashisms --newline --posix --extra filter-other-days && dpkg-buildpackage && lintian --pedantic ../filter-other-days_*_all.deb
