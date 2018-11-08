@@ -34,7 +34,7 @@ The `-d` option does not work under POSIX because it is impossible to implement 
 
 That all being said, this program was tested on systems that include extensions to POSIX, so there may be lingering dependencies on these extensions. If you find any such dependencies, they will be considered bugs. Please [report these][file a bug] in the bug tracker.
 
-If you want to run the test suite, you also need Bash and either `faketime` or a `date` with GNU's `date -d` semantics.
+If you want to run the test suite, you also need Bash and either `faketime` or system where `-d` is available.
 
 ### What systems has `filter-other-days` successfully been tested on?
 
