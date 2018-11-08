@@ -2,7 +2,7 @@ Source: filter-other-days
 Section: admin
 Priority: optional
 Maintainer: AJ Jordan <alex@strugee.net>
-Build-Depends: faketime, bash, debhelper
+Build-Depends: bash, debhelper
 Standards-Version: 4.1.2
 Homepage: https://github.com/strugee/filter-other-days
 Vcs-Git: https://github.com/strugee/filter-other-days.git
