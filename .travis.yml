@@ -9,5 +9,6 @@ addons:
     - faketime
     - colordiff
     - devscripts
+    - fakeroot
 install:
 script: ./test/run-tests.sh && if [ $TRAVIS_OS_NAME = osx ]; then travis_terminate 0; fi && sudo apt-get remove -qq faketime && ./test/run-tests.sh && checkbashisms --newline --posix --extra filter-other-days && dpkg-buildpackage && lintian --pedantic ../filter-other-days_*_all.deb
