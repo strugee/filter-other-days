@@ -18,6 +18,7 @@
 
 ### Fixed
 
+* Releases are now distributed with detached signatures, not signed documents
 * Use EREs instead of BREs to avoid non-portable GNU extension `\|` in BREs
 * Error messages are now printed to stderr
 * Resolve a `sort(1)` warning message on OmniOSce and presumably other Solaris-like `sort(1)` implementations
