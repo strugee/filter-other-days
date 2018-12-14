@@ -28,7 +28,7 @@ fi
 
 echo 'Cleaning worktree'
 if ! git clean -dfX; then
-	die "`git clean -dfX` failed"
+	die '`git clean -dfX` failed'
 fi
 
 # We put these in a temporary directory so the first archive isn't included in the second, etc.
@@ -39,23 +39,23 @@ echo 'Packing archive'
 TARBALL=$TMPDIR/filter-other-days_$VERSION.tar
 # We use * instead of . so that dotfiles are excluded
 if ! tar -cv * > $TARBALL; then
-	die "`tar` failed"
+	die '`tar` failed'
 fi
 
 echo 'Compressing archive with gzip'
 if ! gzip <$TARBALL >$TARBALL.gz; then
-	die "`gzip` failed"
+	die '`gzip` failed'
 fi
 
 echo 'Compressing archive with xz'
 if ! xz <$TARBALL >$TARBALL.xz; then
-	die "`xz` failed"
+	die '`xz` failed'
 fi
 
 for i in $TARBALL $TARBALL.gz $TARBALL.xz; do
 	echo Signing $(basename $i)
 	if ! $FILTER_OTHER_DAYS_GPG --sign $i; then
-		die "`gpg` failed"
+		die '`gpg` failed'
 	fi
 done
 
