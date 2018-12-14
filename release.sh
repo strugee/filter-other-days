@@ -7,6 +7,7 @@
 # TODO make sure a version number is passed
 
 VERSION=$1
+test -z "$FILTER_OTHER_DAYS_GPG" && FILTER_OTHER_DAYS_GPG=gpg
 
 die() {
 	echo $0: $1 1>&2
@@ -53,7 +54,7 @@ fi
 
 for i in $TARBALL $TARBALL.gz $TARBALL.xz; do
 	echo Signing $(basename $i)
-	if ! gpg --sign $i; then
+	if ! $FILTER_OTHER_DAYS_GPG --sign $i; then
 		die "`gpg` failed"
 	fi
 done
