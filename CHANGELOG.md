@@ -8,6 +8,7 @@
 
 * A Debian package is now available
 * The `-d` flag allows overriding the day to filter for
+* Automated tests are now run on FreeBSD thanks to Cirrus CI
 
 ### Changed
 
