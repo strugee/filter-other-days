@@ -1,6 +1,7 @@
 # filter-other-days
 
-[![Build Status](https://travis-ci.org/strugee/filter-other-days.svg?branch=master)](https://travis-ci.org/strugee/filter-other-days)
+[![Build Status](https://travis-ci.org/strugee/filter-other-days.svg?branch=master)](https://travis-ci.org/strugee/filter-other-days) (Linux & macOS)
+[![FreeBSD Build Status](https://api.cirrus-ci.com/github/strugee/filter-other-days.svg)](https://cirrus-ci.com/github/strugee/filter-other-days) (FreeBSD)
 
 Shell script to filter logfiles for today's date in an Artificial Ignorance-compatible way
 
