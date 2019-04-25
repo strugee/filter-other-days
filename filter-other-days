@@ -126,6 +126,7 @@ EOF
 if $D_SUPPORTED; then
 	echo '  -d             use this as current seconds since the epoch'
 	echo '  -l             locales to use in addition to $LANG and C'
+	echo '  -L             locales to use, overriding the default list'
 fi
 
 cat <<EOF
@@ -156,6 +157,18 @@ EOF
 		require_arg_parameter -l $2
 
 		FILTER_LOCALES="$FILTER_LOCALES $(echo $2 | sed -e 's/ //g' -e 's/,/ /g')"
+
+		shift 2
+		continue
+	fi
+
+	# -L
+	if [ $1 = '-L' ]; then
+		# Localization requires -d support to extract localized date strings
+		check_d_support -L
+		require_arg_parameter -L $2
+
+		FILTER_LOCALES="$(echo $2 | sed -e 's/ //g' -e 's/,/ /g')"
 
 		shift 2
 		continue
