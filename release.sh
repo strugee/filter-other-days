@@ -62,6 +62,9 @@ for i in $TARBALL $TARBALL.gz $TARBALL.xz; do
 	fi
 done
 
+echo 'Normalizing permissions'
+chmod 644 $TMPDIR/*
+
 echo 'Moving files out of temporary directory'
 mv $TMPDIR/* .
 
