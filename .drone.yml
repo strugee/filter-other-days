@@ -6,7 +6,7 @@ steps:
     image: ubuntu:rolling
     commands:
       - apt-get update
-      - apt-get --assume-yes install reprotest
+      - DEBIAN_FRONTEND=noninteractive apt-get -qq install reprotest
       - cd filter-other-days
       - gpg --import misc/test-keys.gpg
       - patch release.sh misc/drone-release.patch
