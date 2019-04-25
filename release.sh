@@ -3,7 +3,6 @@
 # TODO update versions and manpage timestamp
 # TODO check for changelog entry
 # TODO run `git tag`
-# TODO bail if this isn't run from the repo root
 # TODO make sure a version number is passed
 
 VERSION=$1
@@ -13,6 +12,10 @@ die() {
 	echo $0: $1 1>&2
 	exit 1
 }
+
+if ! test -d .git; then
+	die 'need to be run from the root of the git repo'
+fi
 
 if ! git diff-index --quiet --cached HEAD --; then
 	die 'changes staged but not committed'
