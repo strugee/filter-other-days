@@ -5,8 +5,8 @@ steps:
   - name: reprotest
     image: ubuntu:rolling
     commands:
-      - apt update
-      - apt install reprotest
+      - apt-get update
+      - apt-get --assume-yes install reprotest
       - cd filter-other-days
       - gpg --import misc/test-keys.gpg
       - patch release.sh misc/drone-release.patch
