@@ -17,7 +17,7 @@ Get the source, either by git clone or unpacked tarball. Change into the directo
 
 ## Usage
 
-`filter-other-days` has three arguments besides `--help` and `--version`. `-d <seconds>` can be used to override the day `filter-other-days` uses as "today", specified in [seconds since the epoch](https://en.wikipedia.org/wiki/Unix_time) (although `-d` is not available on every platform; see "What are the system requirements?" below). `-l <locales>` can be used to load additional locales for filtering besides the system locale (`$LANG` in the environment) and the C locale. `-L` is like `-l` except that it replaces the default list instead of appending to it.
+`filter-other-days` has four arguments besides `--help` and `--version`. `-d <seconds>` can be used to override the day `filter-other-days` uses as "today", specified in [seconds since the epoch](https://en.wikipedia.org/wiki/Unix_time) (although `-d` is not available on every platform; see "What are the system requirements?" below). `-l <locales>` can be used to load additional locales for filtering besides the system locale (`$LANG` in the environment) and the C locale. `-L` is like `-l` except that it replaces the default list instead of appending to it, and `-a` can be used to load all system locales but is very slow. See the FAQ for more information on locale support.
 
 `filter-other-days` accepts input on stdin only.
 
@@ -33,7 +33,7 @@ See [CONTRIBUTING.md](https://github.com/strugee/filter-other-days/blob/master/C
 
 This program is designed to require only a POSIX environment for its core functionality. GNU `seq` was required until version 1.1.0, but this has been fixed.
 
-The `-d` option does not work under POSIX because it is impossible to implement without extensions. It is available on systems with GNU `date -d` or BSD `date -r` semantics; these are feature-tested at runtime. You can determine whether `-d` is available by examining the help output - it will not be shown if you can't use it. The `-l` and `-L` options suffer from identical requirements and thus have identical feature-testing behavior.
+The `-d` option does not work under POSIX because it is impossible to implement without extensions. It is available on systems with GNU `date -d` or BSD `date -r` semantics; these are feature-tested at runtime. You can determine whether `-d` is available by examining the help output - it will not be shown if you can't use it. The `-l`, `-L` and `-a` options suffer from identical requirements and thus have identical feature-testing behavior.
 
 That all being said, this program was tested on systems that include extensions to POSIX, so there may be lingering dependencies on these extensions. If you find any such dependencies, they will be considered bugs. Please [report these][file a bug] in the bug tracker.
 
@@ -41,7 +41,9 @@ If you want to run the test suite, you also need Bash and either `faketime` or a
 
 ### How does the localization support work?
 
-On systems which support the `-d` option, `filter-other-days` is able to extract information from the locales installed on the system and use this information for filtering. By default, it will load the C locale and the system default locale, as defined by `$LANG` in the environment. You can add to this list with the `-l` option or replace this list with the `-L` option. `filter-other-days` does not automatically load all available locales because this operation is extremely slow (it is on the order of seconds, sometimes tens of seconds).
+On systems which support the `-d` option, `filter-other-days` is able to extract information from the locales installed on the system and use this information for filtering. By default, it will load the C locale and the system default locale, as defined by `$LANG` in the environment. You can add to this list with the `-l` option or replace this list with the `-L` option.
+
+`filter-other-days` does not automatically load all available locales because this operation is extremely slow (it is on the order of seconds, sometimes tens of seconds), but if you _really_ want to do this you can pass `-a`. `-l` and `-L` cannot be used at the same time as `-a`.
 
 On systems without `-d`, hard-coded English data is used.
 

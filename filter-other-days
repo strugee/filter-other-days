@@ -61,6 +61,13 @@ require_arg_parameter() {
 	fi
 }
 
+check_locale_a_used() {
+	if $LOCALE_A_FLAG; then
+		echo $0: -l/-L are mutually incompatible with -a 2>&1
+		exit 1
+	fi
+}
+
 #
 # GLOBAL VARIABLES
 #
@@ -96,6 +103,9 @@ D_FEATURE_TEST_BSD >/dev/null 2>&1 && DATE_FLAG_PREFIX="-r "
 # ARGUMENT PARSING
 #
 
+LOCALE_A_FLAG=false
+LOCALE_L_FLAG=false
+
 while [ $# -gt 0 ]; do
 	# -v
 	if [ $1 = --version ] || [ $1 = -v ]; then
@@ -127,6 +137,7 @@ if $D_SUPPORTED; then
 	echo '  -d             use this as current seconds since the epoch'
 	echo '  -l             locales to use in addition to $LANG and C'
 	echo '  -L             locales to use, overriding the default list'
+	echo '  -a             load *all* system locales; incompatible with -l and -L and very slow'
 fi
 
 cat <<EOF
@@ -152,11 +163,14 @@ EOF
 
 	# -l
 	if [ $1 = '-l' ]; then
+		check_locale_a_used
 		# Localization requires -d support to extract localized date strings
 		check_d_support -l
 		require_arg_parameter -l $2
 
 		FILTER_LOCALES="$FILTER_LOCALES $(echo $2 | sed -e 's/ //g' -e 's/,/ /g')"
+
+		LOCALE_L_FLAG=true
 
 		shift 2
 		continue
@@ -164,13 +178,34 @@ EOF
 
 	# -L
 	if [ $1 = '-L' ]; then
+		check_locale_a_used
 		# Localization requires -d support to extract localized date strings
 		check_d_support -L
 		require_arg_parameter -L $2
 
 		FILTER_LOCALES="$(echo $2 | sed -e 's/ //g' -e 's/,/ /g')"
 
+		LOCALE_L_FLAG=true
+
 		shift 2
+		continue
+	fi
+
+	# -L
+	if [ $1 = '-a' ]; then
+		# Localization requires -d support to extract localized date strings
+		check_d_support -a
+
+		if $LOCALE_L_FLAG; then
+			echo $0: -l/-L are mutually incompatible with -a 2>&1
+			exit 1
+		fi
+
+		LOCALE_A_FLAG=true
+
+		FILTER_LOCALES="$(locale -a)"
+
+		shift
 		continue
 	fi
 

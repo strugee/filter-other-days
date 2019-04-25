@@ -64,6 +64,19 @@ is available.
 Like
 .Fl l ,
 but replaces instead of appends to the defaults.
+Overrides any previous
+.Fl l
+option.
+.It Fl a
+Loads
+.Em all
+locales installed on the system.
+This operation can be extremely slow (on the order of seconds or even tens of seconds).
+.Fl a
+is mutually incompatible with
+.Fl l
+and
+.Fl L .
 .It Fl -help , h
 Print help.
 .It Fl -version , v
