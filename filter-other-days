@@ -44,6 +44,23 @@ seq() {
 	done
 }
 
+check_d_support() {
+	CMDLINE_ARG=$1
+	if ! $D_SUPPORTED; then
+		echo $0: option not available on this system -- $CMDLINE_ARG 2>&1
+		exit 1
+	fi
+}
+
+require_arg_parameter() {
+	CMDLINE_ARG=$1
+	if [ -z ${2+x} ]; then
+		echo $0: option requires an argument -- $CMDLINE_ARG 2>&1
+		echo Try \'$0 --help\' for more information. 2>&1
+		exit 1
+	fi
+}
+
 # Feature-test for -d support
 
 D_SUPPORTED=false
@@ -109,16 +126,8 @@ EOF
 
 	# -d
 	if [ $1 = '-d' ]; then
-		if ! $D_SUPPORTED; then
-			echo $0: option not available on this system -- '-d' 2>&1
-			exit 1
-		fi
-
-		if [ -z ${2+x} ]; then
-			echo $0: option requires an argument -- '-d' 2>&1
-			echo Try \'$0 --help\' for more information. 2>&1
-			exit 1
-		fi
+		check_d_support -d
+		require_arg_parameter -d $2
 
 		DATE_FLAGS="${DATE_FLAG_PREFIX}$2"
 
