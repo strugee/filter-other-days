@@ -43,7 +43,7 @@ if ! tar --owner=0 --group=0 --numeric-owner --mtime="@{$SOURCE_DATE_EPOCH}" --s
 fi
 
 echo 'Compressing archive with gzip'
-if ! gzip <$TARBALL >$TARBALL.gz; then
+if ! gzip -n <$TARBALL >$TARBALL.gz; then
 	die '`gzip` failed'
 fi
 
