@@ -1,0 +1,13 @@
+kind: pipeline
+name: default
+
+steps:
+  - name: reprotest
+    image: ubuntu:rolling
+    commands:
+      - apt install reprotest
+      - cd filter-other-days
+      - gpg --import misc/test-keys.gpg
+      - patch release.sh misc/drone-release.patch
+      - reprotest ./release.sh filter-other-days_.tar{,.gz,.xz}
+
