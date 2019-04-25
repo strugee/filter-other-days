@@ -38,7 +38,7 @@ TMPDIR=$(mktemp -d)
 echo 'Packing archive'
 TARBALL=$TMPDIR/filter-other-days_$VERSION.tar
 # We use * instead of . so that dotfiles are excluded
-if ! tar -cv * > $TARBALL; then
+if ! tar --owner=0 --group=0 --numeric-owner --mtime="@{$SOURCE_DATE_EPOCH}" --sort=name -cv * > $TARBALL; then
 	die '`tar` failed'
 fi
 
