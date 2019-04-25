@@ -12,11 +12,7 @@ addons:
     - fakeroot
     - debhelper
     - lintian
-    - reprotest
 install:
-before_script:
-  - gpg --import misc/test-keys.gpg
-  - patch release.sh misc/travis-release.patch
 script:
   - ./test/run-tests.sh
   - if [ $TRAVIS_OS_NAME = osx ]; then travis_terminate 0; fi
@@ -25,4 +21,3 @@ script:
   - checkbashisms --newline --posix --extra filter-other-days
   - dpkg-buildpackage
   - lintian --pedantic ../filter-other-days_*_all.deb
-  - reprotest ./release.sh filter-other-days_.tar{,.gz,.xz}
