@@ -5,6 +5,7 @@ steps:
   - name: reprotest
     image: ubuntu:rolling
     commands:
+      - apt update
       - apt install reprotest
       - cd filter-other-days
       - gpg --import misc/test-keys.gpg
