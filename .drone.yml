@@ -7,7 +7,6 @@ steps:
     commands:
       - apt-get update
       - DEBIAN_FRONTEND=noninteractive apt-get -qq install reprotest
-      - cd filter-other-days
       - gpg --import misc/test-keys.gpg
       - patch release.sh misc/drone-release.patch
       - reprotest ./release.sh filter-other-days_.tar{,.gz,.xz}
