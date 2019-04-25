@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# Copyright 2017, 2018 AJ Jordan <alex@strugee.net>
+# Copyright 2017, 2018, 2019 AJ Jordan <alex@strugee.net>
 #
 # This file is part of filter-other-days.
 #
@@ -111,7 +111,7 @@ while [ $# -gt 0 ]; do
 	if [ $1 = --version ] || [ $1 = -v ]; then
 cat <<EOF
 filter-other-days 1.0.1
-Copyright (C) 2017, 2018 AJ Jordan <alex@strugee.net>.
+Copyright (C) 2017, 2018, 2019 AJ Jordan <alex@strugee.net>.
 License AGPLv3+: GNU AGPL version 3 or later <https://gnu.org/licenses/agpl-3.0.html>.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
