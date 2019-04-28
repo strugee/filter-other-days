@@ -9,5 +9,5 @@ steps:
       - DEBIAN_FRONTEND=noninteractive apt-get -qq install reprotest
       - gpg --import misc/test-keys.gpg
       - patch release.sh misc/drone-release.patch
-      - reprotest -c ./release.sh "filter-other-days_.tar filter-other-days_.tar.gz filter-other-days_.tar.xz"
+      - reprotest -s . ./release.sh "filter-other-days_.tar filter-other-days_.tar.gz filter-other-days_.tar.xz"
 
