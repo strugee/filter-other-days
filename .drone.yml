@@ -12,5 +12,5 @@ steps:
       - apt-get update
       - DEBIAN_FRONTEND=noninteractive apt-get -qq install reprotest
       - patch release.sh misc/drone-release.patch
-      - reprotest -s . ./release.sh "filter-other-days_.tar filter-other-days_.tar.gz filter-other-days_.tar.xz"
+      - reprotest -s . "GNUPGHOME=$(pwd)/.gnupg ./release.sh" "filter-other-days_.tar filter-other-days_.tar.gz filter-other-days_.tar.xz"
 
