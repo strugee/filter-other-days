@@ -4,6 +4,8 @@ name: default
 steps:
   - name: reprotest
     image: ubuntu:rolling
+    environment:
+      GNUPGHOME: ~/.gnupg
     commands:
       - apt-get update
       - DEBIAN_FRONTEND=noninteractive apt-get -qq install reprotest
