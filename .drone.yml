@@ -4,6 +4,8 @@ name: default
 steps:
   - name: reprotest
     image: ubuntu:rolling
+    # Needed for `setarch` which is used by reprotest
+    privileged: true
     environment:
       GNUPGHOME: ~/.gnupg
     commands:
