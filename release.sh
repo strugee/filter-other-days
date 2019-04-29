@@ -41,7 +41,7 @@ TMPDIR=$(mktemp -d)
 echo 'Packing archive'
 TARBALL=$TMPDIR/filter-other-days_$VERSION.tar
 # We use * instead of . so that dotfiles are excluded
-if ! tar --owner=0 --group=0 --numeric-owner --mtime="@{$SOURCE_DATE_EPOCH}" --sort=name -cv * > $TARBALL; then
+if ! tar --owner=0 --group=0 --numeric-owner --mtime="@${SOURCE_DATE_EPOCH}" --sort=name -cv * > $TARBALL; then
 	die '`tar` failed'
 fi
 
@@ -57,7 +57,7 @@ fi
 
 for i in $TARBALL $TARBALL.gz $TARBALL.xz; do
 	echo Signing $(basename $i)
-	if ! $FILTER_OTHER_DAYS_GPG --detach-sig $i > $i.sig; then
+	if ! $FILTER_OTHER_DAYS_GPG --detach-sig $i; then
 		die '`gpg` failed'
 	fi
 done
