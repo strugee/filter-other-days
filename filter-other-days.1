@@ -57,9 +57,6 @@ Append the comma-delimited list
 .Ar locales
 to the list of locales to load.
 The default list loads the C locale and the locale defined in the environment.
-Only available on systems where
-.Fl d
-is available.
 .It Fl L Ar locales
 Like
 .Fl l ,
@@ -85,9 +82,7 @@ Print version.
 .Sh ENVIRONMENT
 .Bl -tag -width Ds
 .It Ev LANG
-Loaded as a locale to filter with in addition to the C locale if the
-.Fl d
-option is available.
+Loaded as a locale to filter with in addition to the C locale.
 .El
 .Sh EXAMPLES
 Filter logfile for entries from today:

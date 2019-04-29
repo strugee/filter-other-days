@@ -41,11 +41,9 @@ If you want to run the test suite, you also need Bash and either `faketime` or a
 
 ### How does the localization support work?
 
-On systems which support the `-d` option, `filter-other-days` is able to extract information from the locales installed on the system and use this information for filtering. By default, it will load the C locale and the system default locale, as defined by `$LANG` in the environment. You can add to this list with the `-l` option or replace this list with the `-L` option.
+`filter-other-days` is able to extract information from the locales installed on the system and use this information for filtering. By default, it will load the C locale and the system default locale, as defined by `$LANG` in the environment. You can add to this list with the `-l` option or replace this list with the `-L` option.
 
 `filter-other-days` does not automatically load all available locales because this operation is extremely slow (it is on the order of seconds, sometimes tens of seconds), but if you _really_ want to do this you can pass `-a`. `-l` and `-L` cannot be used at the same time as `-a`.
-
-On systems without `-d`, hard-coded English data is used.
 
 ### What systems has `filter-other-days` successfully been tested on?
 

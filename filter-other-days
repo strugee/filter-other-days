@@ -135,12 +135,12 @@ EOF
 
 if $D_SUPPORTED; then
 	echo '  -d             use this as current seconds since the epoch'
-	echo '  -l             locales to use in addition to $LANG and C'
-	echo '  -L             locales to use, overriding the default list'
-	echo '  -a             load *all* system locales; incompatible with -l and -L and very slow'
 fi
 
 cat <<EOF
+  -l             locales to use in addition to $LANG and C
+  -L             locales to use, overriding the default list
+  -a             load *all* system locales; incompatible with -l and -L and very slow
 
 Examples:
   echo '2017-01-01' | $0
@@ -164,8 +164,6 @@ EOF
 	# -l
 	if [ $1 = '-l' ]; then
 		check_locale_a_used
-		# Localization requires -d support to extract localized date strings
-		check_d_support -l
 		require_arg_parameter -l $2
 
 		FILTER_LOCALES="$FILTER_LOCALES $(echo $2 | sed -e 's/ //g' -e 's/,/ /g')"
@@ -179,8 +177,6 @@ EOF
 	# -L
 	if [ $1 = '-L' ]; then
 		check_locale_a_used
-		# Localization requires -d support to extract localized date strings
-		check_d_support -L
 		require_arg_parameter -L $2
 
 		FILTER_LOCALES="$(echo $2 | sed -e 's/ //g' -e 's/,/ /g')"
@@ -193,9 +189,6 @@ EOF
 
 	# -L
 	if [ $1 = '-a' ]; then
-		# Localization requires -d support to extract localized date strings
-		check_d_support -a
-
 		if $LOCALE_L_FLAG; then
 			echo $0: -l/-L are mutually incompatible with -a 2>&1
 			exit 1
@@ -227,40 +220,15 @@ done
 
 # Base dataset
 
-locale_monthnames() {
-	for LOCALE in $FILTER_LOCALES; do
-		# We start the time from ~17 days into the month so we can safely add a "month" and not get screwed due to each month having a different number of days
-		TIME=$((60 * 60 * 24 * 17))
-		while [ $TIME -le $((60 * 60 * 24 * 365)) ]; do
-			# TODO every locale has the same number of days per month, right?
-			# TODO should we be using LANG or LC_ALL?
-			TZ=UTC LANG=$LOCALE date ${DATE_FLAG_PREFIX}$TIME +%B
-			# Add 30 days
-			TIME=$(($TIME + $((60 * 60 * 24 * 30))))
-		done
-	done
-}
+for i in $FILTER_LOCALES; do
+	FULL_MONTHS="$FULL_MONTHS\n$(locale -k mon | cut -d\" -f2 | tr ';' '\n')"
+done
 
-if $D_SUPPORTED; then
-	# We filter because lots of locales have duplicates, e.g. all the English locales, and especially because UTF-8 and non-UTF-8 variants are often the same
-	FULL_MONTHS="$(locale_monthnames | tr ' ' '\n' | sort | uniq)"
-else
-	FULL_MONTHS="January
-February
-March
-April
-May
-June
-July
-August
-September
-October
-November
-December"
-fi
+for i in $FILTER_LOCALES; do
+	SHORT_MONTHS="$SHORT_MONTHS\n$(LANG=$i locale -k abmon | cut -d\" -f2 | tr ';' '\n')"
+done
 
-SHORT_MONTHS=$(echo "$FULL_MONTHS" | cut -c -3)
-
+# XXX are there locales whose months have more than 31 days? Whose days don't use Latin digits (1, 2, 3, etc.)?
 FULL_DAYS=$(seq 31 | sed 's/^/0/g' | sed 's/0\(..\)/\1/g')
 DAYS=$(seq 31)
 ALL_DAYS=$(printf "$FULL_DAYS\n$DAYS\n" | sort | uniq)
