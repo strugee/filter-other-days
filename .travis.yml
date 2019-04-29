@@ -12,6 +12,8 @@ addons:
     - fakeroot
     - debhelper
     - lintian
+services:
+  - docker
 install:
 script:
   - ./test/run-tests.sh
@@ -21,3 +23,5 @@ script:
   - checkbashisms --newline --posix --extra filter-other-days
   - dpkg-buildpackage
   - lintian --pedantic ../filter-other-days_*_all.deb
+  # Reprotest
+  - docker run --privileged --mount type=bind,source=$(pwd),destination=/mnt -w /mnt ubuntu:latest sh -c 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -qq install reprotest && patch release.sh misc/travis-release.patch && reprotest -s . "export GNUPGHOME=$(pwd)/.gnupg; ./release.sh; rm -r \$GNUPGHOME" "filter-other-days_.tar filter-other-days_.tar.gz filter-other-days_.tar.xz"'
