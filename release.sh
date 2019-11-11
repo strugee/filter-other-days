@@ -3,7 +3,6 @@
 # TODO update versions and manpage timestamp
 # TODO check for changelog entry
 # TODO run `git tag`
-# TODO bail if this isn't run from the repo root
 # TODO make sure a version number is passed
 
 VERSION=$1
@@ -13,6 +12,10 @@ die() {
 	echo $0: $1 1>&2
 	exit 1
 }
+
+if ! test -d .git; then
+	die 'need to be run from the root of the git repo'
+fi
 
 if ! git diff-index --quiet --cached HEAD --; then
 	die 'changes staged but not committed'
@@ -38,12 +41,12 @@ TMPDIR=$(mktemp -d)
 echo 'Packing archive'
 TARBALL=$TMPDIR/filter-other-days_$VERSION.tar
 # We use * instead of . so that dotfiles are excluded
-if ! tar -cv * > $TARBALL; then
+if ! tar --owner=0 --group=0 --numeric-owner --mtime="@${SOURCE_DATE_EPOCH}" --sort=name -cv * > $TARBALL; then
 	die '`tar` failed'
 fi
 
 echo 'Compressing archive with gzip'
-if ! gzip <$TARBALL >$TARBALL.gz; then
+if ! gzip -n <$TARBALL >$TARBALL.gz; then
 	die '`gzip` failed'
 fi
 
@@ -54,10 +57,13 @@ fi
 
 for i in $TARBALL $TARBALL.gz $TARBALL.xz; do
 	echo Signing $(basename $i)
-	if ! $FILTER_OTHER_DAYS_GPG --detach-sig $i > $i.sig; then
+	if ! $FILTER_OTHER_DAYS_GPG --detach-sig $i; then
 		die '`gpg` failed'
 	fi
 done
+
+echo 'Normalizing permissions'
+chmod 644 $TMPDIR/*
 
 echo 'Moving files out of temporary directory'
 mv $TMPDIR/* .

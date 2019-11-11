@@ -12,5 +12,16 @@ addons:
     - fakeroot
     - debhelper
     - lintian
+services:
+  - docker
 install:
-script: ./test/run-tests.sh && if [ $TRAVIS_OS_NAME = osx ]; then travis_terminate 0; fi && sudo apt-get remove -qq faketime && ./test/run-tests.sh && checkbashisms --newline --posix --extra filter-other-days && dpkg-buildpackage && lintian --pedantic ../filter-other-days_*_all.deb
+script:
+  - ./test/run-tests.sh
+  - if [ $TRAVIS_OS_NAME = osx ]; then travis_terminate 0; fi
+  - sudo apt-get remove -qq faketime
+  - ./test/run-tests.sh
+  - checkbashisms --newline --posix --extra filter-other-days
+  - dpkg-buildpackage
+  - lintian --pedantic ../filter-other-days_*_all.deb
+  # reprotest
+  - docker run --privileged --mount type=bind,source=$(pwd),destination=/mnt -w /mnt ubuntu:latest sh -c 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -qq install git reprotest && patch release.sh misc/travis-release.patch && reprotest -s . "export GNUPGHOME=$(pwd)/.gnupg; ./release.sh; rm -r \$GNUPGHOME || true" "filter-other-days_.tar filter-other-days_.tar.gz filter-other-days_.tar.xz"'

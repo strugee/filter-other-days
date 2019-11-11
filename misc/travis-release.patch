@@ -1,0 +1,24 @@
+--- release.sh	2019-04-28 19:32:26.481000000 -0400
++++ release.sh.new	2019-04-28 19:32:21.648000000 -0400
+@@ -21,10 +21,6 @@
+ 	die 'changes staged but not committed'
+ fi
+ 
+-if ! git diff-files --quiet; then
+-	die 'unstaged changes present'
+-fi
+-
+ if u="$(git ls-files --exclude-standard --others)" && ! test -z "$u"; then
+ 	die 'untracked files present'
+ fi
+@@ -34,6 +30,10 @@
+ 	die '`git clean -dfX` failed'
+ fi
+ 
++# This needs to be here, *after* `git clean`, because reprotest sets ~ to the source directory
++# so .gnupg ends up in the repository tree and gets removed by `git clean`.
++gpg --import misc/test-keys.gpg
++
+ # We put these in a temporary directory so the first archive isn't included in the second, etc.
+ echo 'Creating temporary directory'
+ TMPDIR=$(mktemp -d)
