@@ -23,6 +23,8 @@ script:
   - sudo apt-get remove -qq faketime
   - ./test/run-tests.sh
   - checkbashisms --newline --posix --extra filter-other-days
+  # We patched for FreeBSD earlier and dpkg-buildpackage complains if the working directory is dirty
+  - git checkout filter-other-days
   - dpkg-buildpackage
   - lintian --pedantic ../filter-other-days_*_all.deb
   # reprotest
