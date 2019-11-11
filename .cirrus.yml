@@ -3,4 +3,4 @@ freebsd_instance:
 
 task:
   install_script: pkg install -y libfaketime colordiff bash
-  script: ./test/run-tests.sh
+  script: patch filter-other-days freebsd-bug-237752-hack.patch && ./test/run-tests.sh
