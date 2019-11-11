@@ -17,6 +17,8 @@ services:
 install:
 script:
   - ./test/run-tests.sh
+  - patch filter-other-days freebsd-bug-237752-hack.patch
+  - ./test/run-tests.sh
   - if [ $TRAVIS_OS_NAME = osx ]; then travis_terminate 0; fi
   - sudo apt-get remove -qq faketime
   - ./test/run-tests.sh
