@@ -7,6 +7,7 @@
 
 VERSION=$1
 test -z "$FILTER_OTHER_DAYS_GPG" && FILTER_OTHER_DAYS_GPG=gpg
+test -z "$SOURCE_DATE_EPOCH" && SOURCE_DATE_EPOCH=$(date +%s)
 
 die() {
 	echo $0: $1 1>&2
