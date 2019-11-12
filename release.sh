@@ -84,6 +84,9 @@ chmod 644 $TMPDIR/*
 echo 'Moving files out of temporary directory'
 mv $TMPDIR/* .
 
+echo 'Removing FreeBSD workaround patch'
+git checkout filter-other-days
+
 echo 'Cleaning up'
 rmdir $TMPDIR
 
