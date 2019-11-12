@@ -21,7 +21,7 @@
 +get_locale_cmd() {
 +	KEYWORD=$1
 +
-+	if locale -k $KEYWORD 2>&1 | grep -q Unknown; then
++	if ! locale -k $KEYWORD 2>/dev/null | grep -q $KEYWORD; then
 +		BUILT_STR="$KEYWORD=\""
 +		for i in $(seq 12); do
 +			BUILT_STR="$BUILT_STR$(locale -k ${KEYWORD}_$i | cut -d\" -f2)"
