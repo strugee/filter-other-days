@@ -50,12 +50,24 @@ If you want to run the test suite, you also need Bash and either `faketime` or a
 `filter-other-days` with the `-d` option has successfully been tested on the following systems:
 
 * GNU/Linux
-* FreeBSD 11.2-RELEASE
-* OpenBSD 6.3
-* NetBSD 8.0
+* Cygwin
+
+`filter-other-days` with the `-d` option still needs to be tested on the following systems:
+
 * OpenIndiana Hipster 20180427
 * OmniOSce r151026
+
+`filter-other-days` with FreeBSD patches has successfully been tested on the following systems:
+
+* GNU/Linux
+* FreeBSD 11.3-RELEASE
+* FreeBSD 12.0-RELEASE
+* NetBSD 8.1
 * Cygwin
+
+`filter-other-days` does NOT run on the following systems because they do not conform to POSIX:
+
+* OpenBSD 6.3 and 6.6
 
 `filter-other-days` has not been tested on any systems where `-d` is unavailable because I was unable to find any other freely available, widely used Unix systems that were significantly different from those on this list. If you successfully test `filter-other-days` on a new system with or without `-d`, please [report back your findings][file a bug].
 
