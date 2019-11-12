@@ -18,6 +18,8 @@
 # License along with filter-other-days.  If not, see
 # <https://www.gnu.org/licenses/>.
 
+set -o pipefail
+
 SUCCESSES=0
 FAILURES=0
 
