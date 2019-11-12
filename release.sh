@@ -14,6 +14,10 @@ die() {
 	exit 1
 }
 
+if test -z "$VERSION"; then
+	die 'no version provided'
+fi
+
 if ! test -d .git; then
 	die 'need to be run from the root of the git repo'
 fi
