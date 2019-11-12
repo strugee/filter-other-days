@@ -26,6 +26,8 @@
 #
 # This file is split up into multiple sections - each one corresponds to one family of logfile timestamp styles
 
+set -eu
+
 export POSIXLY_CORRECT=
 
 seq() {
@@ -47,6 +49,7 @@ seq() {
 # Feature-test for -d support
 
 D_SUPPORTED=false
+DATE_FLAGS=''
 
 alias D_FEATURE_TEST_GNU="TZ=UTC date -d @0 2>&1"
 
