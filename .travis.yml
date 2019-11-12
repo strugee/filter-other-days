@@ -1,6 +1,5 @@
 language: generic
 os:
-  - linux
   - osx
 dist: trusty
 addons:
@@ -15,13 +14,19 @@ addons:
 services:
   - docker
 install:
-script:
-  - ./test/run-tests.sh
-  - if [ $TRAVIS_OS_NAME = osx ]; then travis_terminate 0; fi
-  - sudo apt-get remove -qq faketime
-  - ./test/run-tests.sh
-  - checkbashisms --newline --posix --extra filter-other-days
-  - dpkg-buildpackage
-  - lintian --pedantic ../filter-other-days_*_all.deb
+matrix:
+  include:
+  # Note: osx still runs even though it's not explicitly listed here
+  - env: TASK=./test/run-tests.sh
+    os: linux
+  - env: TASK="sudo apt-get remove -qq faketime && ./test/run-tests.sh"
+    os: linux
+  - env: TASK="checkbashisms --newline --posix --extra filter-other-days"
+    os: linux
+  - env: TASK="dpkg-buildpackage && lintian --pedantic ../filter-other-days_*_all.deb"
+    os: linux
   # reprotest
-  - docker run --privileged --mount type=bind,source=$(pwd),destination=/mnt -w /mnt ubuntu:latest sh -c 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -qq install git reprotest && patch release.sh misc/travis-release.patch && reprotest -s . "export GNUPGHOME=$(pwd)/.gnupg; ./release.sh; rm -r \$GNUPGHOME || true" "filter-other-days_.tar filter-other-days_.tar.gz filter-other-days_.tar.xz"'
+  - env: TASK="docker run --privileged --mount type=bind,source=$(pwd),destination=/mnt -w /mnt ubuntu:latest sh -c 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -qq install git reprotest && patch release.sh misc/travis-release.patch && reprotest -s . \"export GNUPGHOME=$(pwd)/.gnupg; ./release.sh; rm -r \$GNUPGHOME || true\" \"filter-other-days_.tar filter-other-days_.tar.gz filter-other-days_.tar.xz\"'"
+    os: linux
+script:
+  - if [ $TRAVIS_OS_NAME = osx ]; then ./test/run-tests.sh; else $TASK; fi
