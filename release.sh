@@ -62,7 +62,7 @@ fi
 
 for i in $TARBALL $TARBALL.gz $TARBALL.xz; do
 	echo Signing $(basename $i)
-	if ! $FILTER_OTHER_DAYS_GPG --detach-sig $i; then
+	if ! $FILTER_OTHER_DAYS_GPG --detach-sig $i > $i.sig; then
 		die '`gpg` failed'
 	fi
 done
