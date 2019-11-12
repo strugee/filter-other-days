@@ -24,6 +24,7 @@
 * Error messages are now printed to stderr
 * Resolve a `sort(1)` warning message on OmniOSce and presumably other Solaris-like `sort(1)` implementations
 * Fix some date formats not being filtered if they had the same month and day but a different year
+* No matching lines no longer triggers a nonzero exit code
 
 ## 1.0.1 - 2017-11-01
 

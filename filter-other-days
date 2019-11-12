@@ -219,4 +219,4 @@ grep -E -v \
 -e "($NOW_SHORT_MONTH|$NOW_FULL_MONTH)[[:space:]]+($DAY_REGEX)[[:space:]]" \
 -e "($YEARS_REGEX)-($OTHER_STANDARD_MONTHS_REGEX)-($ALL_DAYS_REGEX)[[:space:]]" \
 -e "($YEARS_REGEX)-$NOW_MONTH_NUM-($DAY_REGEX)[[:space:]]" \
--e "($OTHER_YEARS_REGEX)-($STANDARD_MONTHS_REGEX)-($ALL_DAYS_REGEX)[[:space:]]"
+-e "($OTHER_YEARS_REGEX)-($STANDARD_MONTHS_REGEX)-($ALL_DAYS_REGEX)[[:space:]]" || true
