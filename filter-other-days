@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# Copyright 2017, 2018 AJ Jordan <alex@strugee.net>
+# Copyright 2017, 2018, 2019 AJ Jordan <alex@strugee.net>
 #
 # This file is part of filter-other-days.
 #
@@ -46,6 +46,40 @@ seq() {
 	done
 }
 
+check_d_support() {
+	CMDLINE_ARG=$1
+	if ! $D_SUPPORTED; then
+		echo $(basename $0): option not available on this system -- $CMDLINE_ARG 2>&1
+		exit 1
+	fi
+}
+
+require_arg_parameter() {
+	CMDLINE_ARG=$1
+	if [ -z ${2+x} ]; then
+		echo $(basename $0): option requires an argument -- $CMDLINE_ARG 2>&1
+		echo Try \'$(basename $0) --help\' for more information. 2>&1
+		exit 1
+	fi
+}
+
+check_locale_a_used() {
+	if $LOCALE_A_FLAG; then
+		echo $(basename $0): -l/-L are mutually incompatible with -a 2>&1
+		exit 1
+	fi
+}
+
+#
+# GLOBAL VARIABLES
+#
+
+FILTER_LOCALES="$LANG C"
+
+#
+# FEATURE TESTS
+#
+
 # Feature-test for -d support
 
 D_SUPPORTED=false
@@ -65,12 +99,22 @@ if D_FEATURE_TEST_BSD | grep 1970 >/dev/null && [ $(D_FEATURE_TEST_BSD | wc -l) 
 	D_SUPPORTED=true
 fi
 
+D_FEATURE_TEST_GNU >/dev/null 2>&1 && DATE_FLAG_PREFIX="-d @"
+D_FEATURE_TEST_BSD >/dev/null 2>&1 && DATE_FLAG_PREFIX="-r "
+
+#
+# ARGUMENT PARSING
+#
+
+LOCALE_A_FLAG=false
+LOCALE_L_FLAG=false
+
 while [ $# -gt 0 ]; do
 	# -v
 	if [ $1 = --version ] || [ $1 = -v ]; then
 cat <<EOF
 filter-other-days 1.0.1
-Copyright (C) 2017, 2018 AJ Jordan <alex@strugee.net>.
+Copyright (C) 2017, 2018, 2019 AJ Jordan <alex@strugee.net>.
 License AGPLv3+: GNU AGPL version 3 or later <https://gnu.org/licenses/agpl-3.0.html>.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
@@ -97,6 +141,9 @@ if $D_SUPPORTED; then
 fi
 
 cat <<EOF
+  -l             locales to use in addition to $LANG and C
+  -L             locales to use, overriding the default list
+  -a             load *all* system locales; incompatible with -l and -L and very slow
 
 Examples:
   echo '2017-01-01' | $(basename $0)
@@ -108,21 +155,53 @@ EOF
 
 	# -d
 	if [ $1 = '-d' ]; then
-		if ! $D_SUPPORTED; then
-			echo $(basename $0): option not available on this system -- '-d' 2>&1
-			exit 1
-		fi
+		check_d_support -d
+		require_arg_parameter -d $2
 
-		if [ -z ${2+x} ]; then
-			echo $(basename $0): option requires an argument -- '-d' 2>&1
-			echo Try \'$(basename $0) --help\' for more information. 2>&1
-			exit 1
-		fi
-
-		D_FEATURE_TEST_GNU >/dev/null 2>&1 && DATE_FLAGS="-d @$2"
-		D_FEATURE_TEST_BSD >/dev/null 2>&1 && DATE_FLAGS="-r $2"
+		DATE_FLAGS="${DATE_FLAG_PREFIX}$2"
 
 		shift 2
+		continue
+	fi
+
+	# -l
+	if [ $1 = '-l' ]; then
+		check_locale_a_used
+		require_arg_parameter -l $2
+
+		FILTER_LOCALES="$FILTER_LOCALES $(echo $2 | sed -e 's/ //g' -e 's/,/ /g')"
+
+		LOCALE_L_FLAG=true
+
+		shift 2
+		continue
+	fi
+
+	# -L
+	if [ $1 = '-L' ]; then
+		check_locale_a_used
+		require_arg_parameter -L $2
+
+		FILTER_LOCALES="$(echo $2 | sed -e 's/ //g' -e 's/,/ /g')"
+
+		LOCALE_L_FLAG=true
+
+		shift 2
+		continue
+	fi
+
+	# -a
+	if [ $1 = '-a' ]; then
+		if $LOCALE_L_FLAG; then
+			echo $(basename $0): -l/-L are mutually incompatible with -a 2>&1
+			exit 1
+		fi
+
+		LOCALE_A_FLAG=true
+
+		FILTER_LOCALES="$(locale -a)"
+
+		shift
 		continue
 	fi
 
@@ -144,21 +223,15 @@ done
 
 # Base dataset
 
-FULL_MONTHS="January
-February
-March
-April
-May
-June
-July
-August
-September
-October
-November
-December"
+for i in $FILTER_LOCALES; do
+	FULL_MONTHS="$FULL_MONTHS\n$(locale -k mon | cut -d\" -f2 | tr ';' '\n')"
+done
 
-SHORT_MONTHS=$(echo "$FULL_MONTHS" | cut -c -3)
+for i in $FILTER_LOCALES; do
+	SHORT_MONTHS="$SHORT_MONTHS\n$(LANG=$i locale -k abmon | cut -d\" -f2 | tr ';' '\n')"
+done
 
+# XXX are there locales whose months have more than 31 days? Whose days don't use Latin digits (1, 2, 3, etc.)?
 FULL_DAYS=$(seq 31 | sed 's/^/0/g' | sed 's/0\(..\)/\1/g')
 DAYS=$(seq 31)
 ALL_DAYS=$(printf "$FULL_DAYS\n$DAYS\n" | sort | uniq)

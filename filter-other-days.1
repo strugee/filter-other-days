@@ -2,7 +2,7 @@
 .\"
 .\" filter-other-days(1) manual page
 .\"
-.\" Copyright 2017, 2018 AJ Jordan <alex@strugee.net>
+.\" Copyright 2017, 2018, 2019 AJ Jordan <alex@strugee.net>
 .\"
 .\" This file is part of filter-other-days.
 .\"
@@ -52,10 +52,37 @@ Treat
 .Ar seconds
 as the current time, in seconds since the epoch.
 Not available on all systems; availability is determined at runtime.
+.It Fl l Ar locales
+Append the comma-delimited list
+.Ar locales
+to the list of locales to load.
+The default list loads the C locale and the locale defined in the environment.
+.It Fl L Ar locales
+Like
+.Fl l ,
+but replaces instead of appends to the defaults.
+Overrides any previous
+.Fl l
+option.
+.It Fl a
+Loads
+.Em all
+locales installed on the system.
+This operation can be extremely slow (on the order of seconds or even tens of seconds).
+.Fl a
+is mutually incompatible with
+.Fl l
+and
+.Fl L .
 .It Fl -help , h
 Print help.
 .It Fl -version , v
 Print version.
+.El
+.Sh ENVIRONMENT
+.Bl -tag -width Ds
+.It Ev LANG
+Loaded as a locale to filter with in addition to the C locale.
 .El
 .Sh EXIT STATUS
 .Ex -std
