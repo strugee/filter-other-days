@@ -42,11 +42,11 @@ If you want to run the test suite, you also need Bash and either `faketime` or s
 `filter-other-days` with the `-d` option has successfully been tested on the following systems:
 
 * GNU/Linux
-* FreeBSD 11.2-RELEASE
-* OpenBSD 6.3
-* NetBSD 8.0
-* OpenIndiana Hipster 20180427
-* OmniOSce r151026
+* FreeBSD 11.3-RELEASE, 12.0-RELEASE and 12.1-RELEASE
+* OpenBSD 6.6
+* NetBSD 8.1
+* OpenIndiana Hipster 20191106
+* OmniOSce r151032
 * Cygwin
 
 `filter-other-days` has not been tested on any systems where `-d` is unavailable because I was unable to find any other freely available, widely used Unix systems that were significantly different from those on this list. If you successfully test `filter-other-days` on a new system with or without `-d`, please [report back your findings][file a bug].
