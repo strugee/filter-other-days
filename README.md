@@ -50,6 +50,7 @@ If you want to run the test suite, you also need Bash and either `faketime` or a
 `filter-other-days` with the `-d` option has successfully been tested on the following systems:
 
 * GNU/Linux
+* FreeBSD 12.1-RELEASE
 * Cygwin
 
 `filter-other-days` with the `-d` option still needs to be tested on the following systems:
@@ -62,6 +63,7 @@ If you want to run the test suite, you also need Bash and either `faketime` or a
 * GNU/Linux
 * FreeBSD 11.3-RELEASE
 * FreeBSD 12.0-RELEASE
+* FreeBSD 12.1-RELEASE
 * NetBSD 8.1
 * Cygwin
 
