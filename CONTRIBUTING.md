@@ -25,12 +25,13 @@ suite. See "running tests" below.
 
 In order to run the tests you will need Bash, which usually comes with
 all modern systems. You'll also need either a `date` with GNU's `date
--d` semantics, or you'll need `faketime`. If you want to use the
-latter, install the package - it's usually called `faketime` or
-sometimes `libfaketime`. If you want to use the former, just make sure
-the GNU tools are installed; the test suite will recognize the `gdate`
-binary name if that's what they come as (for example, if you're on a
-BSD).
+-d` semantics, or you'll need `faketime`. (`filter-other-days -d` is
+not enough because BSD-like `date -r` does not parse the dates in the
+test files.) If you want to use the latter, install the package - it's
+usually called `faketime` or sometimes `libfaketime`. If you want to
+use the former, just make sure the GNU tools are installed; the test
+suite will recognize the `gdate` binary name if that's what they come
+as (for example, if you're on a BSD).
 
 If you also install `colordiff`, the diff that's displayed when
 failures occur will be colorized. But it's not a requirement.
