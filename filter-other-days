@@ -72,6 +72,11 @@ check_locale_a_used() {
 # GLOBAL VARIABLES
 #
 
+# Need this because of set -eu
+LANG=${LANG:-}
+
+DATE_FLAGS=''
+
 FILTER_LOCALES="$LANG C"
 
 #
@@ -220,10 +225,12 @@ done
 
 # Base dataset
 
+FULL_MONTHS=''
 for i in $FILTER_LOCALES; do
 	FULL_MONTHS="$FULL_MONTHS\n$(locale -k mon | cut -d\" -f2 | tr ';' '\n')"
 done
 
+SHORT_MONTHS=''
 for i in $FILTER_LOCALES; do
 	SHORT_MONTHS="$SHORT_MONTHS\n$(LANG=$i locale -k abmon | cut -d\" -f2 | tr ';' '\n')"
 done
