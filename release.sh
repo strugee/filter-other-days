@@ -2,7 +2,6 @@
 
 # TODO update versions and manpage timestamp
 # TODO check for changelog entry
-# TODO run `git tag`
 
 VERSION=$1
 test -z "$FILTER_OTHER_DAYS_GPG" && FILTER_OTHER_DAYS_GPG=gpg
@@ -36,6 +35,11 @@ fi
 echo 'Cleaning worktree'
 if ! git clean -dfX; then
 	die '`git clean -dfX` failed'
+fi
+
+echo 'Tagging'
+if ! git tag -s v$VERSION; then
+	die '`git tag -s` failed'
 fi
 
 # We put these in a temporary directory so the first archive isn't included in the second, etc.
@@ -74,5 +78,8 @@ mv $TMPDIR/* .
 
 echo 'Cleaning up'
 rmdir $TMPDIR
+
+echo 'Pushing tag'
+git push origin v$VERSION
 
 echo 'Release complete.'
