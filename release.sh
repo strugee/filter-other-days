@@ -3,7 +3,6 @@
 # TODO update versions and manpage timestamp
 # TODO check for changelog entry
 # TODO run `git tag`
-# TODO make sure a version number is passed
 
 VERSION=$1
 test -z "$FILTER_OTHER_DAYS_GPG" && FILTER_OTHER_DAYS_GPG=gpg
