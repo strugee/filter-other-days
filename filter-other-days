@@ -70,6 +70,12 @@ check_locale_a_used() {
 	fi
 }
 
+locale() {
+	# POSIX says that `locale -k` can format values either as key="val;val2;..." or as key="val";"val2";... so we normalize it
+	# This `sed` command runs even on systems that don't need it, but I just really didn't feel like adding a bunch of code to test if it's needed. Worse is better.
+	command locale -k $@ | sed 's/";"/;/g'
+}
+
 #
 # GLOBAL VARIABLES
 #
