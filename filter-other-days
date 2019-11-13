@@ -227,7 +227,7 @@ done
 
 FULL_MONTHS=''
 for i in $FILTER_LOCALES; do
-	FULL_MONTHS="$FULL_MONTHS\n$(locale -k mon | cut -d\" -f2 | tr ';' '\n')"
+	FULL_MONTHS="$FULL_MONTHS\n$(LANG=$i locale -k mon | cut -d\" -f2 | tr ';' '\n')"
 done
 
 SHORT_MONTHS=''
