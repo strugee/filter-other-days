@@ -1,5 +1,5 @@
---- filter-other-days	2019-11-11 13:47:23.007000000 -0500
-+++ filter-other-days.freebsd	2019-11-11 14:08:35.596000000 -0500
+--- filter-other-days	2019-11-12 20:45:05.064000000 -0500
++++ filter-other-days.freebsd	2019-11-12 20:45:02.258000000 -0500
 @@ -26,6 +26,13 @@
  #
  # This file is split up into multiple sections - each one corresponds to one family of logfile timestamp styles
@@ -14,7 +14,7 @@
  export POSIXLY_CORRECT=
  
  seq() {
-@@ -99,6 +106,25 @@
+@@ -104,6 +111,25 @@
  D_FEATURE_TEST_GNU >/dev/null 2>&1 && DATE_FLAG_PREFIX="-d @"
  D_FEATURE_TEST_BSD >/dev/null 2>&1 && DATE_FLAG_PREFIX="-r "
  
@@ -40,7 +40,7 @@
  #
  # ARGUMENT PARSING
  #
-@@ -117,6 +143,8 @@
+@@ -122,6 +148,8 @@
  There is NO WARRANTY, to the extent permitted by law.
  
  Written by AJ Jordan.
@@ -49,7 +49,7 @@
  EOF
  		exit 0
  	fi
-@@ -146,6 +174,8 @@
+@@ -151,6 +179,8 @@
    echo '2017-01-01' | $0
    cat daemon.log syslog.log | $0
    $0 < logfile
@@ -58,14 +58,15 @@
  EOF
  		exit 0
  	fi
-@@ -221,11 +251,11 @@
- # Base dataset
+@@ -227,12 +257,12 @@
  
+ FULL_MONTHS=''
  for i in $FILTER_LOCALES; do
--	FULL_MONTHS="$FULL_MONTHS\n$(locale -k mon | cut -d\" -f2 | tr ';' '\n')"
-+	FULL_MONTHS="$FULL_MONTHS\n$($LOCALE_MON | cut -d\" -f2 | tr ';' '\n')"
+-	FULL_MONTHS="$FULL_MONTHS\n$(LANG=$i locale -k mon | cut -d\" -f2 | tr ';' '\n')"
++	FULL_MONTHS="$FULL_MONTHS\n$(LANG=$i $LOCALE_MON | cut -d\" -f2 | tr ';' '\n')"
  done
  
+ SHORT_MONTHS=''
  for i in $FILTER_LOCALES; do
 -	SHORT_MONTHS="$SHORT_MONTHS\n$(LANG=$i locale -k abmon | cut -d\" -f2 | tr ';' '\n')"
 +	SHORT_MONTHS="$SHORT_MONTHS\n$(LANG=$i $LOCALE_ABMON | cut -d\" -f2 | tr ';' '\n')"
