@@ -74,6 +74,9 @@ check_locale_a_used() {
 # GLOBAL VARIABLES
 #
 
+# Need this because of set -eu
+LANG=${LANG:-}
+
 FILTER_LOCALES="$LANG C"
 
 #
