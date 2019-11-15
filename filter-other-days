@@ -26,7 +26,7 @@
 #
 # This file is split up into multiple sections - each one corresponds to one family of logfile timestamp styles
 
-set -eu
+set -e
 
 export POSIXLY_CORRECT=
 
