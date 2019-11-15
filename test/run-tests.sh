@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2017, 2018 AJ Jordan <alex@strugee.net>
+# Copyright 2017, 2018, 2019 AJ Jordan <alex@strugee.net>
 #
 # This file is part of filter-other-days.
 #
