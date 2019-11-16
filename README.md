@@ -90,6 +90,10 @@ $ filter-other-days < filename
 
 Besides, usually you'd want to use `cat` on multiple files before piping to `filter-other-days` anyway.
 
+### How can I filter output from systemd's journal?
+
+Use `journalctl --output=short`. That will output journal entries one per line, with a date format `filter-other-days` supports.
+
 ### I'm seeing entries from other days!
 
 `filter-other-days` is intentionally designed to only filter out what it already knows about. This is because it is dangerous to throw away information you don't understand. This point is particularly salient when one is considering implementing an Artificial Ignorance system based on `filter-other-days`.
