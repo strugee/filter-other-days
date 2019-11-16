@@ -2,6 +2,17 @@
 
 `filter-other-days` follows [Semantic Versioning][1]. Support for additional timestamp styles is considered semver-minor.
 
+## 2.0.0 - 2019-11-16
+
+### Added
+
+* Support for filtering dates in multiple locales via the `-l`, `-L` and `-a` options
+* A second set of release tarballs in addition to "pristine" `filter-other-days` with patches applied to work around FreeBSD and NetBSD POSIX bugs
+
+### Breaking
+
+* Drop support for OpenBSD because it does not implement POSIX functionality that locale support requires (`locale -k`)
+
 ## 1.1.0 - 2019-11-16
 
 ### Added
