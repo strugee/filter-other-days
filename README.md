@@ -52,11 +52,8 @@ If you want to run the test suite, you also need Bash and either `faketime` or a
 * GNU/Linux
 * FreeBSD 12.1-RELEASE
 * Cygwin
-
-`filter-other-days` with the `-d` option still needs to be tested on the following systems:
-
-* OpenIndiana Hipster 20180427
-* OmniOSce r151026
+* OpenIndiana Hipster 20191106
+* OmniOSce r151032
 
 `filter-other-days` with FreeBSD patches has successfully been tested on the following systems:
 
