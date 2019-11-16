@@ -46,35 +46,50 @@ fi
 echo 'Creating temporary directory'
 TMPDIR=$(mktemp -d)
 
-echo 'Packing archive'
-TARBALL=$TMPDIR/filter-other-days_$VERSION.tar
-# We use * instead of . so that dotfiles are excluded
-if ! tar --owner=0 --group=0 --numeric-owner --mtime="@${SOURCE_DATE_EPOCH}" --sort=name -cv * > $TARBALL; then
-	die '`tar` failed'
-fi
+pack_archives() {
+	FILETAG=$1
 
-echo 'Compressing archive with gzip'
-if ! gzip -n <$TARBALL >$TARBALL.gz; then
-	die '`gzip` failed'
-fi
+	echo "Packing$TAG archive"
 
-echo 'Compressing archive with xz'
-if ! xz <$TARBALL >$TARBALL.xz; then
-	die '`xz` failed'
-fi
-
-for i in $TARBALL $TARBALL.gz $TARBALL.xz; do
-	echo Signing $(basename $i)
-	if ! $FILTER_OTHER_DAYS_GPG --detach-sig $i > $i.sig; then
-		die '`gpg` failed'
+	TARBALL=$TMPDIR/filter-other-days${FILETAG}_$VERSION.tar
+	# We use * instead of . so that dotfiles are excluded
+	if ! tar --owner=0 --group=0 --numeric-owner --mtime="@SOURCE_DATE_EPOCH" --sort=name -cv * > $TARBALL; then
+		die '`tar` failed'
 	fi
-done
+
+	echo 'Compressing archive with gzip'
+	if ! gzip -n <$TARBALL >$TARBALL.gz; then
+		die '`gzip` failed'
+	fi
+
+	echo 'Compressing archive with xz'
+	if ! xz <$TARBALL >$TARBALL.xz; then
+		die '`xz` failed'
+	fi
+
+	for i in $TARBALL $TARBALL.gz $TARBALL.xz; do
+		echo Signing $(basename $i)
+		if ! $FILTER_OTHER_DAYS_GPG --detach-sign $i > $i.sig; then
+			die '`gpg` failed'
+		fi
+	done
+}
+
+pack_archives '' ''
+
+echo 'Applying FreeBSD workaround patch'
+patch filter-other-days freebsd-bug-237752-hack.patch
+
+pack_archives _freebsd 'patched FreeBSD'
 
 echo 'Normalizing permissions'
 chmod 644 $TMPDIR/*
 
 echo 'Moving files out of temporary directory'
 mv $TMPDIR/* .
+
+echo 'Removing FreeBSD workaround patch'
+git checkout filter-other-days
 
 echo 'Cleaning up'
 rmdir $TMPDIR

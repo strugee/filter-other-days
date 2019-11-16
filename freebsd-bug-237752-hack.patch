@@ -1,0 +1,75 @@
+--- filter-other-days	2019-11-16 11:42:00.000000000 -0800
++++ filter-other-days.freebsd	2019-11-16 11:53:46.173000000 -0800
+@@ -28,6 +28,13 @@
+ 
+ set -e
+ 
++#
++# IMPORTANT NOTICE:
++#
++# This is not a pristine, POSIX-only version of filter-other-days. It has been patched to correct for FreeBSD bug #237752.
++# You do not need this version in FreeBSD 12 and beyond.
++#
++
+ export POSIXLY_CORRECT=
+ 
+ seq() {
+@@ -113,6 +120,25 @@
+ D_FEATURE_TEST_GNU >/dev/null 2>&1 && DATE_FLAG_PREFIX="-d @"
+ D_FEATURE_TEST_BSD >/dev/null 2>&1 && DATE_FLAG_PREFIX="-r "
+ 
++get_locale_cmd() {
++	KEYWORD=$1
++
++	if ! locale -k $KEYWORD 2>/dev/null | grep -q $KEYWORD; then
++		BUILT_STR="$KEYWORD=\""
++		for i in $(seq 12); do
++			BUILT_STR="$BUILT_STR$(locale -k ${KEYWORD}_$i | cut -d\" -f2)"
++			! test $i = 12 && BUILT_STR="$BUILT_STR;"
++		done
++		BUILT_STR="$BUILT_STR\""
++		echo "echo $BUILT_STR"
++	else
++		echo "locale -k $KEYWORD"
++	fi
++}
++
++LOCALE_ABMON=$(get_locale_cmd abmon)
++LOCALE_MON=$(get_locale_cmd mon)
++
+ #
+ # ARGUMENT PARSING
+ #
+@@ -131,6 +157,8 @@
+ There is NO WARRANTY, to the extent permitted by law.
+ 
+ Written by AJ Jordan.
++
++This version is patched to work around FreeBSD bug #237752.
+ EOF
+ 		exit 0
+ 	fi
+@@ -160,6 +188,8 @@
+   echo '2017-01-01' | $(basename $0)
+   cat daemon.log syslog.log | $(basename $0)
+   $(basename $0) < logfile
++
++This version is patched to work around FreeBSD bug #237752.
+ EOF
+ 		exit 0
+ 	fi
+@@ -236,12 +266,12 @@
+ 
+ FULL_MONTHS=''
+ for i in $FILTER_LOCALES; do
+-	FULL_MONTHS="$FULL_MONTHS\n$(LANG=$i locale -k mon | cut -d\" -f2 | tr ';' '\n')"
++	FULL_MONTHS="$FULL_MONTHS\n$(LANG=$i $LOCALE_MON | cut -d\" -f2 | tr ';' '\n')"
+ done
+ 
+ SHORT_MONTHS=''
+ for i in $FILTER_LOCALES; do
+-	SHORT_MONTHS="$SHORT_MONTHS\n$(LANG=$i locale -k abmon | cut -d\" -f2 | tr ';' '\n')"
++	SHORT_MONTHS="$SHORT_MONTHS\n$(LANG=$i $LOCALE_ABMON | cut -d\" -f2 | tr ';' '\n')"
+ done
+ 
+ # XXX are there locales whose months have more than 31 days? Whose days don't use Latin digits (1, 2, 3, etc.)?
