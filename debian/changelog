@@ -1,3 +1,9 @@
+filter-other-days (1.1.0) UNRELEASED; urgency=medium
+
+  * Update release from upstream
+
+ -- AJ Jordan <alex@strugee.net>  Sat, 16 Nov 2019 11:00:52 -0800
+
 filter-other-days (1.0.1) UNRELEASED; urgency=medium
 
   * Initial release. (Closes: #886310)

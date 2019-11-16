@@ -2,7 +2,7 @@
 
 `filter-other-days` follows [Semantic Versioning][1]. Support for additional timestamp styles is considered semver-minor.
 
-## 1.1.0 - future
+## 1.1.0 - 2019-11-16
 
 ### Added
 
