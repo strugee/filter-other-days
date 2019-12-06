@@ -1,6 +1,15 @@
---- release.sh	2019-04-28 19:32:26.481000000 -0400
-+++ release.sh.new	2019-04-28 19:32:21.648000000 -0400
-@@ -21,10 +21,6 @@
+--- release.sh.old	2019-12-06 17:02:09.896000000 -0500
++++ release.sh.new	2019-12-06 17:18:20.140000000 -0500
+@@ -1,5 +1,8 @@
+ #!/bin/sh
+ 
++git config --global user.email "alyssa@example.com"
++git config --global user.name "Alyssa P. Hacker"
++
+ # TODO update versions and manpage timestamp
+ # TODO check for changelog entry
+ 
+@@ -24,10 +27,6 @@
  	die 'changes staged but not committed'
  fi
  
@@ -11,8 +20,8 @@
  if u="$(git ls-files --exclude-standard --others)" && ! test -z "$u"; then
  	die 'untracked files present'
  fi
-@@ -34,6 +30,10 @@
- 	die '`git clean -dfX` failed'
+@@ -42,6 +41,10 @@
+ 	die '`git tag -s` failed'
  fi
  
 +# This needs to be here, *after* `git clean`, because reprotest sets ~ to the source directory
@@ -22,3 +31,11 @@
  # We put these in a temporary directory so the first archive isn't included in the second, etc.
  echo 'Creating temporary directory'
  TMPDIR=$(mktemp -d)
+@@ -94,7 +97,4 @@
+ echo 'Cleaning up'
+ rmdir $TMPDIR
+ 
+-echo 'Pushing tag'
+-git push origin v$VERSION
+-
+ echo 'Release complete.'
