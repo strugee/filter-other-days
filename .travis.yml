@@ -28,4 +28,4 @@ script:
   - dpkg-buildpackage
   - lintian --pedantic ../filter-other-days_*_all.deb
   # reprotest
-  - docker run --privileged --mount type=bind,source=$(pwd),destination=/mnt -w /mnt ubuntu:latest sh -c 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -qq install git reprotest && patch release.sh misc/travis-release.patch && reprotest -s . "export GNUPGHOME=$(pwd)/.gnupg; ./release.sh 5000; rm -r \$GNUPGHOME || true" "filter-other-days_.tar filter-other-days_.tar.gz filter-other-days_.tar.xz"'
+  - docker run --privileged --mount type=bind,source=$(pwd),destination=/mnt -w /mnt ubuntu:latest sh -c 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -qq install git reprotest && patch release.sh misc/travis-release.patch && reprotest -s . "export GNUPGHOME=$(pwd)/.gnupg; ./release.sh 5000; rm -r \$GNUPGHOME || true" "filter-other-days_5000.tar filter-other-days_5000.tar.gz filter-other-days_5000.tar.xz filter-other-days_freebsd_5000.tar filter-other-days_freebsd_5000.tar.gz filter-other-days_freebsd_5000.tar.xz"'
