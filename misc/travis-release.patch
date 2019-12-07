@@ -1,5 +1,5 @@
 --- release.sh.old	2019-12-06 18:19:57.890000000 -0500
-+++ release.sh.new	2019-12-06 18:53:55.011000000 -0500
++++ release.sh.new	2019-12-06 19:26:18.121000000 -0500
 @@ -1,5 +1,8 @@
  #!/bin/sh
  
@@ -36,6 +36,15 @@
  
  # We put these in a temporary directory so the first archive isn't included in the second, etc.
  echo 'Creating temporary directory'
+@@ -69,7 +63,7 @@
+ 
+ 	for i in $TARBALL $TARBALL.gz $TARBALL.xz; do
+ 		echo Signing $(basename $i)
+-		if ! $FILTER_OTHER_DAYS_GPG --detach-sign $i > $i.sig; then
++		if ! $FILTER_OTHER_DAYS_GPG --no-tty --detach-sign $i > $i.sig; then
+ 			die '`gpg` failed'
+ 		fi
+ 	done
 @@ -94,7 +88,4 @@
  echo 'Cleaning up'
  rmdir $TMPDIR
